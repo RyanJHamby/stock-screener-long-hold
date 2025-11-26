@@ -160,10 +160,10 @@ def save_report(results, buy_signals, sell_signals, spy_analysis, breadth, outpu
 
 def main():
     parser = argparse.ArgumentParser(description='Optimized Full Market Scanner')
-    parser.add_argument('--workers', type=int, default=5, help='Parallel workers (default: 5)')
-    parser.add_argument('--delay', type=float, default=0.2, help='Delay per worker (default: 0.2s)')
-    parser.add_argument('--conservative', action='store_true', help='Conservative mode (3 workers, 0.33s delay)')
-    parser.add_argument('--aggressive', action='store_true', help='Aggressive mode (10 workers, 0.1s delay) - RISKY!')
+    parser.add_argument('--workers', type=int, default=3, help='Parallel workers (default: 3)')
+    parser.add_argument('--delay', type=float, default=0.5, help='Delay per worker (default: 0.5s)')
+    parser.add_argument('--conservative', action='store_true', help='Ultra-conservative mode (2 workers, 1.0s delay)')
+    parser.add_argument('--aggressive', action='store_true', help='Faster mode (5 workers, 0.3s delay) - MAY HIT RATE LIMITS!')
     parser.add_argument('--resume', action='store_true', help='Resume from progress')
     parser.add_argument('--clear-progress', action='store_true', help='Clear progress')
     parser.add_argument('--test-mode', action='store_true', help='Test with 100 stocks')
@@ -174,13 +174,13 @@ def main():
 
     # Presets
     if args.conservative:
-        args.workers = 3
-        args.delay = 0.33
-        logger.info("Conservative mode: 3 workers, 0.33s delay (~9 TPS)")
+        args.workers = 2
+        args.delay = 1.0
+        logger.info("Ultra-conservative mode: 2 workers, 1.0s delay (~2 TPS)")
     elif args.aggressive:
-        args.workers = 10
-        args.delay = 0.1
-        logger.warning("Aggressive mode: 10 workers, 0.1s delay (~100 TPS) - MAY TRIGGER RATE LIMITS!")
+        args.workers = 5
+        args.delay = 0.3
+        logger.warning("Aggressive mode: 5 workers, 0.3s delay (~17 TPS) - MAY HIT RATE LIMITS!")
 
     effective_tps = args.workers / args.delay
     logger.info(f"Configuration: {args.workers} workers × {1/args.delay:.1f} TPS = ~{effective_tps:.1f} TPS effective")

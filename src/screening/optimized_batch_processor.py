@@ -36,8 +36,8 @@ class OptimizedBatchProcessor:
         self,
         cache_dir: str = "./data/cache",
         results_dir: str = "./data/batch_results",
-        max_workers: int = 5,  # Process 5 stocks in parallel
-        rate_limit_delay: float = 0.2,  # 0.2 sec = 5 TPS per worker
+        max_workers: int = 3,  # Conservative: 3 workers
+        rate_limit_delay: float = 0.5,  # 0.5 sec = 2 TPS per worker
         batch_size: int = 100
     ):
         """Initialize optimized processor.
@@ -45,8 +45,8 @@ class OptimizedBatchProcessor:
         Args:
             cache_dir: Cache directory
             results_dir: Results directory
-            max_workers: Number of parallel workers (5 = ~25 TPS effective)
-            rate_limit_delay: Delay per worker (0.2 = 5 TPS)
+            max_workers: Number of parallel workers (3 = ~6 TPS effective)
+            rate_limit_delay: Delay per worker (0.5 = 2 TPS)
             batch_size: Save progress frequency
         """
         self.fetcher = YahooFinanceFetcher(cache_dir=cache_dir)
@@ -66,10 +66,13 @@ class OptimizedBatchProcessor:
         self.processed_tickers = set()
         self.current_results = []
 
-        # Rate limit tracking
+        # Rate limit tracking and adaptive backoff
         self.request_times = []
         self.error_count = 0
         self.total_requests = 0
+        self.consecutive_errors = 0
+        self.backoff_delay = 0.0  # Additional delay when errors detected
+        self.last_error_time = None
 
         logger.info(f"OptimizedBatchProcessor initialized")
         logger.info(f"Workers: {max_workers}, Delay: {rate_limit_delay}s")
@@ -133,7 +136,7 @@ class OptimizedBatchProcessor:
         max_price: float,
         min_volume: int
     ) -> Optional[Dict]:
-        """Analyze one stock with rate limiting.
+        """Analyze one stock with adaptive rate limiting.
 
         Args:
             ticker: Stock ticker
@@ -145,8 +148,13 @@ class OptimizedBatchProcessor:
             Analysis dict or None
         """
         try:
-            # Rate limiting
+            # Base rate limiting
             time.sleep(self.rate_limit_delay)
+
+            # Adaptive backoff - add extra delay if we've had recent errors
+            if self.backoff_delay > 0:
+                time.sleep(self.backoff_delay)
+                logger.debug(f"Adaptive backoff: +{self.backoff_delay:.1f}s")
 
             self.total_requests += 1
 
@@ -205,7 +213,27 @@ class OptimizedBatchProcessor:
 
         except Exception as e:
             self.error_count += 1
-            logger.debug(f"Error analyzing {ticker}: {e}")
+            self.consecutive_errors += 1
+            self.last_error_time = time.time()
+
+            # Check if it's a rate limit error
+            error_msg = str(e).lower()
+            if '429' in error_msg or 'rate limit' in error_msg or 'too many requests' in error_msg:
+                logger.warning(f"Rate limit hit on {ticker}: {e}")
+
+                # Adaptive backoff - increase delay
+                self.backoff_delay = min(self.backoff_delay + 0.5, 5.0)  # Max 5 sec extra
+                logger.warning(f"Increasing backoff delay to +{self.backoff_delay:.1f}s")
+
+                # If we hit multiple rate limits, sleep longer immediately
+                if self.consecutive_errors >= 3:
+                    sleep_time = 30
+                    logger.warning(f"Multiple rate limits detected! Sleeping {sleep_time}s...")
+                    time.sleep(sleep_time)
+                    self.consecutive_errors = 0
+            else:
+                logger.debug(f"Error analyzing {ticker}: {e}")
+
             return None
 
     def process_batch_parallel(
@@ -283,6 +311,11 @@ class OptimizedBatchProcessor:
                             'ticker': ticker,
                             'phase': analysis['phase_info']['phase']
                         })
+
+                        # Success - reset consecutive errors and reduce backoff
+                        self.consecutive_errors = 0
+                        if self.backoff_delay > 0:
+                            self.backoff_delay = max(0, self.backoff_delay - 0.1)  # Slowly reduce
 
                     self.processed_tickers.add(ticker)
 
