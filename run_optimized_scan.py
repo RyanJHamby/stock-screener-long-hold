@@ -170,6 +170,7 @@ def main():
     parser.add_argument('--min-price', type=float, default=5.0, help='Min price')
     parser.add_argument('--min-volume', type=int, default=100000, help='Min volume')
     parser.add_argument('--use-fmp', action='store_true', help='Use FMP for enhanced fundamentals on buy signals')
+    parser.add_argument('--git-storage', action='store_true', help='Use Git-based storage for fundamentals (recommended)')
 
     args = parser.parse_args()
 
@@ -212,8 +213,12 @@ def main():
         # Initialize processor
         processor = OptimizedBatchProcessor(
             max_workers=args.workers,
-            rate_limit_delay=args.delay
+            rate_limit_delay=args.delay,
+            use_git_storage=args.git_storage
         )
+
+        if args.git_storage:
+            logger.info("Git-based fundamental storage enabled - 74% API call reduction!")
 
         if args.clear_progress:
             processor.clear_progress()

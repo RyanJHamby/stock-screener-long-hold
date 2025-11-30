@@ -20,6 +20,7 @@ import yfinance as yf
 
 from src.data.fetcher import YahooFinanceFetcher
 from src.data.fundamentals_fetcher import fetch_quarterly_financials, analyze_fundamentals_for_signal
+from src.data.git_storage_fetcher import GitStorageFetcher
 from ..screening.phase_indicators import classify_phase, calculate_relative_strength
 
 logging.basicConfig(
@@ -38,7 +39,8 @@ class OptimizedBatchProcessor:
         results_dir: str = "./data/batch_results",
         max_workers: int = 3,  # Conservative: 3 workers
         rate_limit_delay: float = 0.5,  # 0.5 sec = 2 TPS per worker
-        batch_size: int = 100
+        batch_size: int = 100,
+        use_git_storage: bool = False  # Use Git-based fundamental storage
     ):
         """Initialize optimized processor.
 
@@ -48,8 +50,11 @@ class OptimizedBatchProcessor:
             max_workers: Number of parallel workers (3 = ~6 TPS effective)
             rate_limit_delay: Delay per worker (0.5 = 2 TPS)
             batch_size: Save progress frequency
+            use_git_storage: Use Git-based storage for fundamentals (recommended)
         """
         self.fetcher = YahooFinanceFetcher(cache_dir=cache_dir)
+        self.git_fetcher = GitStorageFetcher() if use_git_storage else None
+        self.use_git_storage = use_git_storage
         self.results_dir = Path(results_dir)
         self.results_dir.mkdir(parents=True, exist_ok=True)
 
@@ -114,7 +119,8 @@ class OptimizedBatchProcessor:
         """Fetch SPY benchmark data."""
         try:
             logger.info("Fetching SPY data...")
-            spy_hist = self.fetcher.fetch_price_history('SPY', period='2y')
+            # Use 1 year for price data (not 2 years - 50% less data)
+            spy_hist = self.fetcher.fetch_price_history('SPY', period='1y')
 
             if spy_hist.empty:
                 logger.error("Failed to fetch SPY data")
@@ -158,8 +164,11 @@ class OptimizedBatchProcessor:
 
             self.total_requests += 1
 
-            # Fetch price history
-            price_data = self.fetcher.fetch_price_history(ticker, period='2y')
+            # Fetch price history (1 year = 250 days, sufficient for 200 SMA)
+            if self.use_git_storage and self.git_fetcher:
+                price_data = self.git_fetcher.fetch_price_fresh(ticker)
+            else:
+                price_data = self.fetcher.fetch_price_history(ticker, period='1y')
 
             if price_data.empty or len(price_data) < 200:
                 return None
@@ -197,7 +206,11 @@ class OptimizedBatchProcessor:
             fundamental_analysis = {}
 
             if phase in [1, 2]:
-                quarterly_data = fetch_quarterly_financials(ticker)
+                # Use Git-based storage if enabled
+                if self.use_git_storage and self.git_fetcher:
+                    quarterly_data = self.git_fetcher.fetch_fundamentals_smart(ticker)
+                else:
+                    quarterly_data = fetch_quarterly_financials(ticker)
                 fundamental_analysis = analyze_fundamentals_for_signal(quarterly_data)
 
             return {
