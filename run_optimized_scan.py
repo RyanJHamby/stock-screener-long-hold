@@ -80,19 +80,32 @@ def save_report(results, buy_signals, sell_signals, spy_analysis, breadth, outpu
     if buy_signals:
         for i, signal in enumerate(buy_signals[:50], 1):
             output.append(f"\n{'#'*80}")
-            output.append(f"BUY #{i}: {signal['ticker']} | Score: {signal['score']}/100")
+            output.append(f"BUY #{i}: {signal['ticker']} | Score: {signal['score']}/110")
             output.append(f"{'#'*80}")
             output.append(f"Phase: {signal['phase']}")
+            output.append(f"Entry Quality: {signal.get('entry_quality', 'Unknown')}")
+
+            # CRITICAL: Stop loss and R/R ratio
+            if signal.get('stop_loss'):
+                output.append(f"Stop Loss: ${signal['stop_loss']:.2f}")
+                details = signal.get('details', {})
+                risk_amt = details.get('risk_amount', 0)
+                reward_amt = details.get('reward_amount', 0)
+                output.append(f"Risk/Reward: {signal.get('risk_reward_ratio', 0):.1f}:1 (Risk ${risk_amt:.2f}, Reward ${reward_amt:.2f})")
+
             if signal.get('breakout_price'):
                 output.append(f"Breakout: ${signal['breakout_price']:.2f}")
+
             details = signal.get('details', {})
             if 'rs_slope' in details:
                 output.append(f"RS: {details['rs_slope']:.3f}")
             if 'volume_ratio' in details:
                 output.append(f"Volume: {details['volume_ratio']:.1f}x")
-            output.append("\nReasons:")
-            for reason in signal['reasons'][:5]:
+
+            output.append("\nKey Reasons:")
+            for reason in signal['reasons'][:7]:  # Show 7 instead of 5
                 output.append(f"  • {reason}")
+
             if signal.get('fundamental_snapshot'):
                 output.append(signal['fundamental_snapshot'])
 

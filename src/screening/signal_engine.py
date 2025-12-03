@@ -24,6 +24,73 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
+def calculate_stop_loss(
+    price_data: pd.DataFrame,
+    current_price: float,
+    phase_info: Dict,
+    phase: int
+) -> float:
+    """Calculate logical stop loss level for swing trading.
+
+    Stop loss placement rules:
+    - Phase 2: Below recent swing low or 50 SMA (whichever is closer), typically 6-8% risk
+    - Phase 1: Below base/consolidation low, typically 7-10% risk
+    - Maximum risk: 10% from current price (wider stops = don't take trade)
+
+    Args:
+        price_data: OHLCV data
+        current_price: Current price
+        phase_info: Phase classification dict
+        phase: Phase number (1 or 2)
+
+    Returns:
+        Stop loss price level
+    """
+    sma_50 = phase_info.get('sma_50', 0)
+
+    if phase == 2:
+        # Stage 2: Use 50 SMA or recent swing low, whichever is higher (tighter stop)
+        # Look for lowest low in last 10 days (recent pullback low)
+        if len(price_data) >= 10:
+            recent_low = price_data['Low'].iloc[-10:].min()
+        else:
+            recent_low = price_data['Low'].min()
+
+        # Stop should be below recent low with buffer (0.5%)
+        swing_low_stop = recent_low * 0.995
+
+        # Or below 50 SMA with buffer (1%)
+        sma_stop = sma_50 * 0.99 if sma_50 > 0 else swing_low_stop
+
+        # Use the higher of the two (tighter stop = less risk)
+        stop_loss = max(swing_low_stop, sma_stop)
+
+        # But don't place stop too tight (min 3% risk) or too loose (max 10% risk)
+        risk_pct = (current_price - stop_loss) / current_price
+        if risk_pct < 0.03:  # Too tight
+            stop_loss = current_price * 0.97
+        elif risk_pct > 0.10:  # Too loose
+            stop_loss = current_price * 0.90
+
+    else:  # Phase 1
+        # Stage 1: Stop below base/consolidation low
+        # Use lowest low in last 30 days (base low)
+        if len(price_data) >= 30:
+            base_low = price_data['Low'].iloc[-30:].min()
+        else:
+            base_low = price_data['Low'].min()
+
+        # Stop below base low with buffer (1%)
+        stop_loss = base_low * 0.99
+
+        # Max 10% risk rule
+        risk_pct = (current_price - stop_loss) / current_price
+        if risk_pct > 0.10:
+            stop_loss = current_price * 0.90
+
+    return stop_loss
+
+
 def score_buy_signal(
     ticker: str,
     price_data: pd.DataFrame,
@@ -336,10 +403,102 @@ def score_buy_signal(
 
     score += rs_score
 
-    # Final score
-    final_score = max(0, min(score, 100))
+    # ========================================================================
+    # 5. STOP LOSS CALCULATION (not scored, but critical for risk mgmt)
+    # ========================================================================
+    stop_loss = calculate_stop_loss(price_data, current_price, phase_info, phase)
+    details['stop_loss'] = stop_loss
 
-    # Determine if this is a valid buy signal (>= 60, not 70!)
+    # ========================================================================
+    # 6. RISK/REWARD RATIO (5 points) - Minimum 2:1 for good trades
+    # ========================================================================
+    rr_score = 0
+    risk_amount = current_price - stop_loss if stop_loss else 0
+
+    # Calculate reward potential (resistance or % target)
+    if phase == 2:
+        # Stage 2: Use 20% upside as target (conservative)
+        reward_target = current_price * 1.20
+    else:  # Phase 1
+        # Stage 1: Use breakout level + 15% as target
+        if breakout_info.get('is_breakout'):
+            reward_target = breakout_info['breakout_level'] * 1.15
+        else:
+            reward_target = sma_50 * 1.15  # Target 50 SMA + 15%
+
+    reward_amount = reward_target - current_price
+
+    # Calculate R/R ratio
+    if risk_amount > 0:
+        rr_ratio = reward_amount / risk_amount
+
+        # LINEAR scoring: 1:1 = 0 pts, 2:1 = 2.5 pts, 3:1 = 5 pts, 4:1+ = 5 pts
+        # Formula: min(5, max(0, (rr_ratio - 1) * 2.5))
+        rr_score = min(5, max(0, (rr_ratio - 1.0) * 2.5))
+
+        details['risk_reward_ratio'] = round(rr_ratio, 2)
+        details['risk_amount'] = round(risk_amount, 2)
+        details['reward_amount'] = round(reward_amount, 2)
+        details['reward_target'] = round(reward_target, 2)
+
+        if rr_ratio >= 3.0:
+            reasons.append(f'✓ Excellent R/R: {rr_ratio:.1f}:1 (${risk_amount:.2f} risk, ${reward_amount:.2f} reward)')
+        elif rr_ratio >= 2.0:
+            reasons.append(f'Good R/R: {rr_ratio:.1f}:1')
+        elif rr_ratio >= 1.5:
+            reasons.append(f'Acceptable R/R: {rr_ratio:.1f}:1')
+        else:
+            reasons.append(f'⚠ Poor R/R: {rr_ratio:.1f}:1 (need 2:1 minimum)')
+    else:
+        details['risk_reward_ratio'] = 0
+        rr_score = 0
+
+    score += rr_score
+    details['rr_score'] = round(rr_score, 2)
+
+    # ========================================================================
+    # 7. ENTRY QUALITY (5 points) - Don't chase extended moves!
+    # ========================================================================
+    entry_score = 0
+
+    # A) Not over-extended from 50 SMA (3 pts)
+    # Formula: max(0, 3 - (distance_50 / 10) * 3), range 0-3
+    # 0% from 50 SMA = 3 pts (at support)
+    # 10%+ from 50 SMA = 0 pts (extended)
+    extension_score = max(0, 3 - (max(0, distance_50) / 10.0) * 3)
+    entry_score += extension_score
+
+    # B) Near logical entry point (2 pts)
+    if phase == 2:
+        # Stage 2: Best entry near 50 SMA or after shallow pullback
+        if distance_50 >= 0 and distance_50 <= 5:
+            entry_score += 2  # Near 50 SMA = ideal
+            reasons.append(f'✓ Good entry zone: {distance_50:.1f}% above 50 SMA')
+        elif distance_50 > 5 and distance_50 <= 10:
+            entry_score += 1  # Slightly extended
+            reasons.append(f'Moderate entry: {distance_50:.1f}% above 50 SMA')
+        else:
+            entry_score += 0  # Too extended
+            reasons.append(f'⚠ Extended entry: {distance_50:.1f}% above 50 SMA (wait for pullback)')
+    else:  # Phase 1
+        # Stage 1: Best entry on breakout or just before
+        if distance_50 >= -3 and distance_50 <= 5:
+            entry_score += 2  # Near breakout zone
+            reasons.append(f'✓ Good entry zone: near breakout point')
+        elif distance_50 >= -5:
+            entry_score += 1
+            reasons.append(f'Approaching entry zone')
+        else:
+            entry_score += 0
+            reasons.append(f'Early - wait for better entry')
+
+    score += entry_score
+    details['entry_score'] = round(entry_score, 2)
+
+    # Final score (now out of 110 with new components)
+    final_score = max(0, min(score, 110))
+
+    # Determine if this is a valid buy signal (>= 60)
     is_buy = final_score >= 60
 
     return {
@@ -348,6 +507,9 @@ def score_buy_signal(
         'score': round(final_score, 1),
         'phase': phase,
         'breakout_price': breakout_info.get('breakout_level') if breakout_info['is_breakout'] else None,
+        'stop_loss': round(stop_loss, 2) if stop_loss else None,
+        'risk_reward_ratio': details.get('risk_reward_ratio', 0),
+        'entry_quality': 'Good' if entry_score >= 4 else 'Extended' if entry_score >= 2 else 'Poor',
         'reasons': reasons,
         'details': details
     }
