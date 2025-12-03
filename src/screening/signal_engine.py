@@ -83,38 +83,44 @@ def score_buy_signal(
     distance_50 = phase_info.get('distance_from_50sma', 0)
     distance_200 = phase_info.get('distance_from_200sma', 0)
 
-    # A) Base Stage 2 quality (30 points max) - GRADUAL based on strength
+    # A) Base Stage 2 quality (30 points max) - LINEAR FORMULAS
     if phase == 2:
         # Not all Stage 2 stocks are equal! Grade by strength
         stage2_quality = 0
 
-        # How far above SMAs? (15 pts)
-        if distance_50 >= 5 and distance_200 >= 10:
-            stage2_quality += 15  # Strong uptrend
-            reasons.append('Strong Stage 2: well above SMAs')
-        elif distance_50 >= 2 and distance_200 >= 5:
-            stage2_quality += 12  # Good uptrend
-            reasons.append('Good Stage 2: above SMAs')
-        elif distance_50 >= 0 and distance_200 >= 0:
-            stage2_quality += 8   # Weak Stage 2
-            reasons.append('Weak Stage 2: barely above SMAs')
-        else:
-            stage2_quality += 3   # Very weak
-            reasons.append('Very weak Stage 2')
+        # How far above SMAs? (15 pts) - Linear from 0% to 15%+
+        # Formula: min(15, (distance_50 * 0.6) + (distance_200 * 0.4))
+        distance_component = min(15, max(0,
+            (distance_50 / 15.0 * 10) +  # 0-15% → 0-10 pts
+            (distance_200 / 20.0 * 5)     # 0-20% → 0-5 pts
+        ))
+        stage2_quality += distance_component
 
-        # SMA slopes - are SMAs rising? (15 pts)
-        if slope_50 > 0.05 and slope_200 > 0.03:
-            stage2_quality += 15  # Strong rising SMAs
+        if distance_50 >= 10:
+            reasons.append(f'Strong Stage 2: {distance_50:.1f}% above 50 SMA')
+        elif distance_50 >= 3:
+            reasons.append(f'Good Stage 2: {distance_50:.1f}% above 50 SMA')
+        elif distance_50 >= 0:
+            reasons.append(f'Weak Stage 2: {distance_50:.1f}% above 50 SMA')
+        else:
+            reasons.append(f'Very weak Stage 2: {distance_50:.1f}% from 50 SMA')
+
+        # SMA slopes - are SMAs rising? (15 pts) - Linear from 0 to 0.08+
+        # Formula: (slope_50/0.08 * 10) + (slope_200/0.05 * 5), capped at 15
+        slope_component = min(15, max(0,
+            (slope_50 / 0.08 * 10) +   # 0-0.08 → 0-10 pts
+            (slope_200 / 0.05 * 5)      # 0-0.05 → 0-5 pts
+        ))
+        stage2_quality += slope_component
+
+        if slope_50 > 0.05:
             reasons.append(f'SMAs rising strongly (50:{slope_50:.3f}, 200:{slope_200:.3f})')
-        elif slope_50 > 0.02 and slope_200 > 0.01:
-            stage2_quality += 10  # Moderate
+        elif slope_50 > 0.02:
             reasons.append(f'SMAs rising moderately')
-        elif slope_50 > 0 and slope_200 > 0:
-            stage2_quality += 5   # Weak
+        elif slope_50 > 0:
             reasons.append(f'SMAs rising weakly')
         else:
-            stage2_quality += 0   # Flat/declining
-            reasons.append('Warning: SMAs not rising')
+            reasons.append('⚠ SMAs flat or declining')
 
         trend_score += stage2_quality
 
@@ -122,26 +128,33 @@ def score_buy_signal(
         # Stage 1 → Stage 2 transition potential (graded 0-25 points)
         transition_score = 0
 
-        # How close to breaking out? (12 pts)
-        if distance_50 >= -2 and distance_50 < 5:
-            transition_score += 12  # Near 50 SMA
-            reasons.append(f'Near 50 SMA ({distance_50:.1f}% away)')
-        elif distance_50 >= -5:
-            transition_score += 8
-            reasons.append(f'Approaching 50 SMA')
-        else:
-            transition_score += 3
-            reasons.append('Far from 50 SMA')
+        # How close to breaking out? (12 pts) - Linear from -10% to +5%
+        # Formula: ((distance_50 + 10) / 15) * 12, capped at 12
+        proximity_score = min(12, max(0, ((distance_50 + 10) / 15.0) * 12))
+        transition_score += proximity_score
 
-        # SMA setup - golden cross territory? (13 pts)
-        if sma_50 > sma_200 and slope_50 > 0:
-            transition_score += 13
-            reasons.append('50 SMA > 200 SMA (golden cross)')
+        if distance_50 >= -2:
+            reasons.append(f'Near 50 SMA breakout ({distance_50:.1f}%)')
+        elif distance_50 >= -5:
+            reasons.append(f'Approaching 50 SMA ({distance_50:.1f}%)')
+        else:
+            reasons.append(f'Building base ({distance_50:.1f}% below 50 SMA)')
+
+        # SMA setup - golden cross strength (13 pts) - Linear based on SMA separation
+        # Formula: ((sma_50 - sma_200) / sma_200) * 200 * slope_factor, capped at 13
+        sma_ratio = (sma_50 - sma_200) / sma_200 if sma_200 > 0 else 0
+        slope_factor = min(1.0, max(0, slope_50 / 0.03))  # 0-0.03 slope → 0-1 multiplier
+        sma_setup_score = min(13, max(0, sma_ratio * 200 * slope_factor))
+        transition_score += sma_setup_score
+
+        if sma_50 > sma_200 and slope_50 > 0.02:
+            reasons.append(f'Strong golden cross setup (50 SMA {sma_ratio*100:.1f}% above 200)')
+        elif sma_50 > sma_200:
+            reasons.append(f'Golden cross present')
         elif sma_50 > sma_200 * 0.98:
-            transition_score += 8
             reasons.append('Approaching golden cross')
         else:
-            transition_score += 3
+            reasons.append('50 SMA below 200 SMA')
 
         trend_score += transition_score
 
@@ -169,40 +182,51 @@ def score_buy_signal(
     fundamental_score = 0
 
     if fundamentals:
-        # A) Growth trends (15 points)
-        revenue_trend = fundamentals.get('revenue_trend', 'unknown')
-        eps_trend = fundamentals.get('eps_trend', 'unknown')
+        # A) Growth trends (15 points) - LINEAR based on actual YoY %
+        # Get actual growth rates if available
+        revenue_yoy = fundamentals.get('revenue_yoy_change', 0)  # Percentage
+        eps_yoy = fundamentals.get('eps_yoy_change', 0)
 
-        if revenue_trend == 'accelerating' and eps_trend == 'accelerating':
-            fundamental_score += 15
-            reasons.append('✓ Revenue & EPS accelerating')
-        elif revenue_trend == 'accelerating' or eps_trend == 'accelerating':
-            fundamental_score += 12
-            reasons.append('Revenue or EPS accelerating')
-        elif revenue_trend == 'growing' and eps_trend == 'growing':
-            fundamental_score += 10
-            reasons.append('Revenue & EPS growing')
-        elif revenue_trend == 'growing' or eps_trend == 'growing':
-            fundamental_score += 7
-            reasons.append('Some growth present')
-        elif revenue_trend == 'flat' and eps_trend == 'flat':
-            fundamental_score += 3
-            reasons.append('Growth stalled')
+        # Revenue component (7.5 pts) - Linear from -20% to +40%
+        # Formula: ((revenue_yoy + 20) / 60) * 7.5, capped at 7.5
+        revenue_score = min(7.5, max(0, ((revenue_yoy + 20) / 60.0) * 7.5))
+        fundamental_score += revenue_score
+
+        # EPS component (7.5 pts) - Linear from -20% to +60%
+        # Formula: ((eps_yoy + 20) / 80) * 7.5, capped at 7.5
+        eps_score = min(7.5, max(0, ((eps_yoy + 20) / 80.0) * 7.5))
+        fundamental_score += eps_score
+
+        # Describe the growth
+        if revenue_yoy > 25 and eps_yoy > 40:
+            reasons.append(f'✓ Accelerating growth (Rev: {revenue_yoy:.0f}%, EPS: {eps_yoy:.0f}%)')
+        elif revenue_yoy > 10 and eps_yoy > 15:
+            reasons.append(f'Strong growth (Rev: {revenue_yoy:.0f}%, EPS: {eps_yoy:.0f}%)')
+        elif revenue_yoy > 0 and eps_yoy > 0:
+            reasons.append(f'Positive growth (Rev: {revenue_yoy:.0f}%, EPS: {eps_yoy:.0f}%)')
+        elif revenue_yoy > -5 and eps_yoy > -5:
+            reasons.append(f'Growth stalling (Rev: {revenue_yoy:.0f}%, EPS: {eps_yoy:.0f}%)')
         else:
-            fundamental_score += 0
-            reasons.append('⚠ Revenue or EPS deteriorating')
+            reasons.append(f'⚠ Declining (Rev: {revenue_yoy:.0f}%, EPS: {eps_yoy:.0f}%)')
 
-        # B) Inventory signal (10 points)
-        inventory_signal = fundamentals.get('inventory_signal', 'neutral')
-        if inventory_signal == 'neutral' or inventory_signal == 'unknown':
-            fundamental_score += 10
-            reasons.append('Inventory: neutral')
-        elif inventory_signal == 'caution':
-            fundamental_score += 5
-            reasons.append('⚠ Inventory building moderately')
-        else:  # negative
-            fundamental_score += 0
-            reasons.append('⚠ Inventory building rapidly (demand concern)')
+        # B) Inventory signal (10 points) - LINEAR based on actual QoQ %
+        inv_qoq_change = fundamentals.get('inventory_qoq_change', 0)  # Percentage
+
+        # Formula: 10 - (inv_qoq_change / 20) * 10, range 0-10
+        # -20% inventory draw = 20 pts (capped at 10)
+        # 0% = 10 pts (neutral)
+        # +20% buildup = 0 pts
+        inventory_score = min(10, max(0, 10 - (inv_qoq_change / 20.0) * 10))
+        fundamental_score += inventory_score
+
+        if inv_qoq_change < -5:
+            reasons.append(f'✓ Inventory drawing ({inv_qoq_change:.1f}% QoQ - strong demand)')
+        elif inv_qoq_change < 5:
+            reasons.append(f'Inventory neutral ({inv_qoq_change:.1f}% QoQ)')
+        elif inv_qoq_change < 15:
+            reasons.append(f'⚠ Inventory building ({inv_qoq_change:.1f}% QoQ)')
+        else:
+            reasons.append(f'⚠ Inventory building rapidly ({inv_qoq_change:.1f}% QoQ - demand concern)')
 
         # C) Profit margins expansion (5 points bonus)
         # TODO: Add when margin data available
@@ -249,21 +273,22 @@ def score_buy_signal(
         avg_vol_up = (volume_on_up_days / up_days) if up_days > 0 else 0
         avg_vol_down = (volume_on_down_days / down_days) if down_days > 0 else 0
 
-        # Score based on volume behavior
-        if avg_vol_up > avg_vol_down * 1.3:
-            # Heavy volume on up days = institutions accumulating
-            volume_score = 10
-            reasons.append(f'✓ Volume heavier on up days ({avg_vol_up/1e6:.1f}M vs {avg_vol_down/1e6:.1f}M)')
-        elif avg_vol_up > avg_vol_down:
-            volume_score = 7
-            reasons.append('Volume slightly heavier on up days')
-        elif avg_vol_down > avg_vol_up * 1.3:
-            # Heavy volume on down days = distribution
-            volume_score = 0
-            reasons.append('⚠ Volume heavier on down days (distribution)')
+        # Score based on volume ratio - LINEAR
+        # Formula: 5 + (vol_ratio - 1) * 10, range 0-10
+        # ratio 0.5 (heavy on down) = 0 pts
+        # ratio 1.0 (equal) = 5 pts
+        # ratio 1.5+ (heavy on up) = 10 pts
+        vol_ratio = (avg_vol_up / avg_vol_down) if avg_vol_down > 0 else 1.0
+        volume_score = min(10, max(0, 5 + (vol_ratio - 1.0) * 10))
+
+        if vol_ratio >= 1.3:
+            reasons.append(f'✓ Volume heavier on up days ({avg_vol_up/1e6:.1f}M vs {avg_vol_down/1e6:.1f}M, ratio {vol_ratio:.2f})')
+        elif vol_ratio >= 1.1:
+            reasons.append(f'Volume slightly heavier on up days (ratio {vol_ratio:.2f})')
+        elif vol_ratio >= 0.9:
+            reasons.append(f'Volume pattern neutral (ratio {vol_ratio:.2f})')
         else:
-            volume_score = 4
-            reasons.append('Volume pattern neutral')
+            reasons.append(f'⚠ Volume heavier on down days (ratio {vol_ratio:.2f} - distribution)')
 
         details['avg_vol_up'] = round(avg_vol_up, 0)
         details['avg_vol_down'] = round(avg_vol_down, 0)
@@ -283,28 +308,28 @@ def score_buy_signal(
         # Use 20-day RS slope for swing trading
         rs_slope = calculate_rs_slope(rs_series, 20)
 
-        # Gradual scoring curve
+        # LINEAR scoring - Formula: (rs_slope / 4.0) * 10, range 0-10
+        # -1.0 slope = 0 pts (underperforming badly)
+        # 0 slope = 2.5 pts (matching market)
+        # 2.0 slope = 7.5 pts (strong outperformance)
+        # 4.0+ slope = 10 pts (exceptional)
+        rs_score = min(10, max(0, ((rs_slope + 1.0) / 5.0) * 10))
+
         if rs_slope >= 3.0:
-            rs_score = 10
-            reasons.append(f'Excellent RS: {rs_slope:.2f} (outperforming SPY)')
-        elif rs_slope >= 2.0:
-            rs_score = 8
+            reasons.append(f'Excellent RS: {rs_slope:.2f} (strong outperformance)')
+        elif rs_slope >= 1.5:
             reasons.append(f'Strong RS: {rs_slope:.2f}')
-        elif rs_slope >= 1.0:
-            rs_score = 6
-            reasons.append(f'Good RS: {rs_slope:.2f}')
         elif rs_slope >= 0.5:
-            rs_score = 4
-            reasons.append(f'Positive RS: {rs_slope:.2f}')
+            reasons.append(f'Good RS: {rs_slope:.2f}')
         elif rs_slope >= 0:
-            rs_score = 2
-            reasons.append(f'Weak RS: {rs_slope:.2f}')
+            reasons.append(f'Moderate RS: {rs_slope:.2f}')
+        elif rs_slope >= -0.5:
+            reasons.append(f'Weak RS: {rs_slope:.2f} (slight underperformance)')
         else:
-            rs_score = 0
-            reasons.append(f'⚠ Negative RS: {rs_slope:.2f} (underperforming)')
+            reasons.append(f'⚠ Negative RS: {rs_slope:.2f} (underperforming SPY)')
 
         details['rs_slope'] = round(rs_slope, 3)
-        details['rs_score'] = rs_score
+        details['rs_score'] = round(rs_score, 2)
     else:
         rs_score = 5  # Neutral if insufficient data
         details['rs_score'] = rs_score
