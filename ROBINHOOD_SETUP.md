@@ -218,16 +218,160 @@ pip3 install robin-stocks
 
 ---
 
-## Integration with Scanner (Future)
+## Position Management - Stop Loss Recommendations
 
-Potential enhancements:
+**NEW: Automated stop loss adjustment recommendations**
 
-1. **Auto-filter buy signals**: Don't show stocks you already own
-2. **Position monitoring**: Alert when your positions get sell signals from scanner
-3. **Stop loss tracking**: Compare current prices to your stops
-4. **Exit alerts**: Notify when positions drop below entry or trail stops
+### Overview
 
-**None of these involve automated trading - all read-only.**
+The `manage_positions.py` tool fetches your Robinhood positions and analyzes each one to recommend:
+- When to trail your stop losses up
+- Exact new stop loss levels with detailed rationale
+- When to take partial profits (25-50%)
+- Warnings for Phase 3/4 transitions
+
+**Important**: Only analyzes **SHORT-TERM** positions (held <1 year). Long-term positions are excluded to preserve favorable capital gains tax treatment.
+
+### Usage
+
+```bash
+python manage_positions.py
+```
+
+With entry dates for tax treatment filtering:
+```bash
+python manage_positions.py --entry-dates entry_dates.json
+```
+
+Export report to file:
+```bash
+python manage_positions.py --export
+```
+
+### What It Recommends
+
+**5-10% Gain**: Trail to Breakeven
+- Moves stop to entry price (risk-free position)
+- "If it pulls back, exit at breakeven with no loss"
+
+**10-20% Gain**: Trail to +5% Profit or 50 SMA
+- Locks in minimum 5% profit
+- Trails to 50 SMA if it's higher
+- "Let winner run while protecting gains"
+
+**20-30% Gain**: Take Partial + Trail Remainder
+- Recommends selling 25-30% at current price
+- Trail remaining 70-75% with stop at +10% profit
+- "Lock in some gains, let runners go"
+
+**30%+ Gain**: Take 50% + Trail Tight
+- Recommends selling 50% at current price
+- Trail remaining 50% very tight (near 50 SMA)
+- "Major winner - secure profits, give last piece tight room"
+
+### Example Report
+
+```
+============================================================
+POSITION MANAGEMENT REPORT - STOP LOSS RECOMMENDATIONS
+============================================================
+
+PORTFOLIO SUMMARY
+------------------------------------------------------------
+Total Positions: 3
+Need Stop Adjustment: 2
+Short-term (<1 year): 2
+Long-term (1+ years): 1
+Average Gain: +8.47%
+
+⚠️  URGENT ACTIONS NEEDED
+------------------------------------------------------------
+
+NVDA (+10.10%)
+  • Big winner - consider taking partial profits
+
+================================================================================
+
+POSITION #1: AAPL
+################################################################################
+Entry: $175.50 | Current: $182.30 | Gain: +3.87%
+Tax Treatment: SHORT_TERM
+Days Held: 45
+
+ACTION: HOLD
+
+RATIONALE:
+Position up 3.9% - hold initial stop. Wait for 5-10% gain before adjusting.
+
+Technical: Phase 2 | 50 SMA: $178.20
+
+################################################################################
+
+POSITION #2: MSFT
+################################################################################
+Entry: $380.00 | Current: $385.50 | Gain: +1.45%
+Tax Treatment: LONG_TERM
+Days Held: 400
+
+ACTION: HOLD
+
+RATIONALE:
+LONG-TERM HOLD (400 days) - Preserve long-term capital gains tax rate.
+No stop adjustment recommended.
+
+################################################################################
+
+POSITION #3: NVDA
+################################################################################
+Entry: $495.00 | Current: $545.00 | Gain: +10.10%
+Tax Treatment: SHORT_TERM
+Days Held: 20
+
+ACTION: TRAIL TO PROFIT
+
+✓ RECOMMENDED STOP LOSS: $519.75
+
+RATIONALE:
+Position up 10.1% - TRAIL STOP TO PROFIT.
+  Move stop to $519.75 (locks in +5% gain minimum).
+  Let position run while protecting profit floor.
+
+Technical: Phase 2 | 50 SMA: $512.30
+
+================================================================================
+```
+
+### Entry Dates JSON Format
+
+Create a `entry_dates.json` file to track when you entered each position:
+
+```json
+{
+  "AAPL": "2024-10-18T00:00:00",
+  "MSFT": "2023-05-10T00:00:00",
+  "NVDA": "2024-11-13T00:00:00"
+}
+```
+
+**Why this matters**:
+- Positions held 365+ days = Long-term capital gains (15-20% tax)
+- Positions held <365 days = Short-term capital gains (ordinary income rate)
+- The tool WON'T recommend adjusting stops for long-term positions to avoid triggering early sale
+
+### Technical Analysis Used
+
+Each position is analyzed for:
+- Current Phase (1-4 stage analysis)
+- 50-day SMA (key support level)
+- 200-day SMA (major trend indicator)
+- Recent swing lows (last 10 days)
+- Distance from entry price
+
+Stop recommendations use:
+- Breakeven stops for small winners
+- Profit-based stops for medium winners
+- SMA-based trailing stops when above 50 SMA
+- Tight trailing for big winners (30%+)
 
 ---
 
@@ -235,8 +379,9 @@ Potential enhancements:
 
 This tool is for **information only**. You still:
 - Manually review buy signals
+- Manually review stop loss recommendations
 - Manually place orders on Robinhood app/web
-- Manually set stop losses
+- Manually adjust stop losses on the platform
 - Manually exit positions
 
-The integration just helps you track what you own so you can make informed decisions.
+The integration provides **recommendations** - you make all trading decisions.
