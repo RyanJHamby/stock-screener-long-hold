@@ -4,4 +4,8 @@
 .env.local
 *.log
 __pycache__/
+
+# Ignore all data/* except fundamentals_cache
 data/*
+!data/fundamentals_cache/
+!data/fundamentals_cache/**
