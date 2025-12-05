@@ -188,15 +188,16 @@ class EnhancedFundamentalsFetcher:
 
         Args:
             ticker: Stock ticker
-            quarterly_data: Pre-fetched data, or will fetch if None
+            quarterly_data: Pre-fetched data (if empty/None, skip snapshot creation)
             use_fmp: Use FMP for enhanced snapshot if available
 
         Returns:
             Formatted snapshot string
         """
-        # Fetch data if not provided
-        if quarterly_data is None:
-            quarterly_data = self.fetch_quarterly_data(ticker, use_fmp=use_fmp)
+        # Don't fetch if data not provided - return empty snapshot
+        # This prevents fetching fundamentals for Phase 3/4 stocks
+        if not quarterly_data:
+            return ""
 
         # If data came from FMP and has enhanced fields, use FMP snapshot
         if (quarterly_data.get('data_source') == 'fmp' and
