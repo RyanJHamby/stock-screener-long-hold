@@ -390,13 +390,14 @@ def score_buy_signal(
     # ========================================================================
     rs_score = 0
 
-    if len(rs_series) >= 20:
+    # Check if RS series has valid data
+    if len(rs_series) >= 20 and not rs_series.isna().all():
         # Use 20-day RS slope for swing trading
         rs_slope = calculate_rs_slope(rs_series, 20)
 
-        # LINEAR scoring - Formula: (rs_slope / 4.0) * 10, range 0-10
+        # LINEAR scoring - Formula: ((rs_slope + 1.0) / 5.0) * 10, range 0-10
         # -1.0 slope = 0 pts (underperforming badly)
-        # 0 slope = 2.5 pts (matching market)
+        # 0 slope = 2.5 pts (matching market exactly)
         # 2.0 slope = 7.5 pts (strong outperformance)
         # 4.0+ slope = 10 pts (exceptional)
         rs_score = min(10, max(0, ((rs_slope + 1.0) / 5.0) * 10))
@@ -419,6 +420,7 @@ def score_buy_signal(
     else:
         rs_score = 5  # Neutral if insufficient data
         details['rs_score'] = rs_score
+        reasons.append('RS data insufficient')
 
     score += rs_score
 
