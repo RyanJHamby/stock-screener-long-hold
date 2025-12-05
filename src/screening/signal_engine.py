@@ -400,22 +400,19 @@ def score_buy_signal(
         rs_slope = calculate_rs_slope(rs_series, 20)
         details['rs_slope'] = round(rs_slope, 3)
 
-        # SMOOTH LINEAR scoring based on RS slope (NO BUCKETS)
-        # RS slope ranges typically from -0.30 to +0.30
-        # Formula: 5 + (rs_slope * 16.67), capped at 0-10
-        # Examples:
-        #   rs_slope = +0.30 → 5 + (0.30 * 16.67) = 10.0 pts (max)
-        #   rs_slope = +0.15 → 5 + (0.15 * 16.67) = 7.5 pts
-        #   rs_slope =  0.00 → 5 + (0.00 * 16.67) = 5.0 pts (neutral)
-        #   rs_slope = -0.15 → 5 + (-0.15 * 16.67) = 2.5 pts
-        #   rs_slope = -0.30 → 5 + (-0.30 * 16.67) = 0.0 pts (min)
-        rs_score = min(10, max(0, 5 + (rs_slope * 16.67)))
+        # Linear scoring based on RS slope
+        # RS slope > 0.15 = 10 pts (strong outperformance)
+        # RS slope = 0 = 5 pts (neutral)
+        # RS slope < -0.15 = 0 pts (underperformance)
+        # Formula: 5 + (rs_slope / 0.03) capped at 0-10
+        rs_score = min(10, max(0, 5 + (rs_slope / 0.03)))
 
-        # Add to reasons (still descriptive, but score is smooth)
         if rs_slope > 0.10:
             reasons.append(f'✓ Strong RS: {rs_slope:.3f} (outperforming SPY)')
-        elif rs_slope > 0:
+        elif rs_slope > 0.03:
             reasons.append(f'Positive RS: {rs_slope:.3f}')
+        elif rs_slope > -0.03:
+            reasons.append(f'Neutral RS: {rs_slope:.3f}')
         elif rs_slope > -0.10:
             reasons.append(f'Weak RS: {rs_slope:.3f}')
         else:
