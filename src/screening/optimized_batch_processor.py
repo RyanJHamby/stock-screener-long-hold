@@ -75,6 +75,7 @@ class OptimizedBatchProcessor:
         # Rate limit tracking and adaptive backoff
         self.request_times = []
         self.error_count = 0
+        self.filtered_count = 0  # Stocks that didn't pass filters (not errors)
         self.total_requests = 0
         self.consecutive_errors = 0
         self.backoff_delay = 0.0  # Additional delay when errors detected
@@ -87,6 +88,9 @@ class OptimizedBatchProcessor:
         # Error tracking by type
         self.error_types = {}  # {error_type: count}
         self.error_examples = {}  # {error_type: example_ticker}
+
+        # Filter tracking
+        self.filter_reasons = {}  # {reason: count}
 
         logger.info(f"OptimizedBatchProcessor initialized")
         logger.info(f"Workers: {max_workers}, Delay: {rate_limit_delay}s")
@@ -197,18 +201,24 @@ class OptimizedBatchProcessor:
                 price_data = self.fetcher.fetch_price_history(ticker, period='1y')
 
             if price_data.empty or len(price_data) < 200:
+                self.filtered_count += 1
+                self.filter_reasons['insufficient_data'] = self.filter_reasons.get('insufficient_data', 0) + 1
                 return None
 
             current_price = price_data['Close'].iloc[-1]
 
             # Price filter
             if current_price < min_price or current_price > max_price:
+                self.filtered_count += 1
+                self.filter_reasons['price_range'] = self.filter_reasons.get('price_range', 0) + 1
                 return None
 
             # Volume filter
             if 'Volume' in price_data.columns:
                 avg_volume = price_data['Volume'].iloc[-20:].mean()
                 if avg_volume < min_volume:
+                    self.filtered_count += 1
+                    self.filter_reasons['low_volume'] = self.filter_reasons.get('low_volume', 0) + 1
                     return None
             else:
                 avg_volume = 0
@@ -218,6 +228,8 @@ class OptimizedBatchProcessor:
             phase = phase_info['phase']
 
             if phase not in [1, 2, 3, 4]:
+                self.filtered_count += 1
+                self.filter_reasons['invalid_phase'] = self.filter_reasons.get('invalid_phase', 0) + 1
                 return None
 
             # RS calculation
@@ -265,9 +277,11 @@ class OptimizedBatchProcessor:
 
             self.error_types[error_type] += 1
 
-            # Log first occurrence of each error type
-            if self.error_types[error_type] == 1:
-                logger.error(f"[NEW ERROR TYPE] {error_type} on {ticker}: {error_msg}")
+            # Log first 5 occurrences of each error type for debugging
+            if self.error_types[error_type] <= 5:
+                logger.error(f"[ERROR #{self.error_types[error_type]}] {error_type} on {ticker}: {error_msg}")
+            elif self.error_types[error_type] == 6:
+                logger.info(f"  ({error_type} will now be suppressed, {self.error_types[error_type]} total so far)")
 
             # Check if it's a rate limit error
             if '429' in error_msg.lower() or 'rate limit' in error_msg.lower() or 'too many requests' in error_msg.lower():
@@ -380,12 +394,13 @@ class OptimizedBatchProcessor:
                         eta = str(timedelta(seconds=int(eta_seconds)))
 
                         error_rate = self.error_count / max(self.total_requests, 1) * 100
+                        filter_rate = self.filtered_count / max(self.total_requests, 1) * 100
 
                         logger.info(
                             f"Progress: {len(self.processed_tickers)}/{len(tickers)} "
                             f"({len(self.processed_tickers)/len(tickers)*100:.1f}%) | "
                             f"Rate: {rate:.1f}/sec | "
-                            f"Errors: {error_rate:.1f}% | "
+                            f"Filtered: {filter_rate:.1f}% | Errors: {error_rate:.1f}% | "
                             f"ETA: {eta}"
                         )
 
@@ -407,8 +422,18 @@ class OptimizedBatchProcessor:
         logger.info(f"Time: {str(timedelta(seconds=int(total_time)))}")
         logger.info(f"Processed: {len(tickers)} tickers")
         logger.info(f"Analyzed: {len(all_analyses)} stocks")
+        logger.info(f"Filtered: {self.filtered_count} ({self.filtered_count / max(self.total_requests, 1) * 100:.1f}%)")
         logger.info(f"Actual rate: {actual_rate:.2f} TPS")
         logger.info(f"Error rate: {self.error_count / max(self.total_requests, 1) * 100:.1f}%")
+
+        # Log filter breakdown
+        if self.filter_reasons:
+            logger.info("-"*60)
+            logger.info("FILTER BREAKDOWN:")
+            sorted_filters = sorted(self.filter_reasons.items(), key=lambda x: x[1], reverse=True)
+            for reason, count in sorted_filters:
+                pct = (count / self.filtered_count * 100) if self.filtered_count > 0 else 0
+                logger.info(f"  {reason}: {count} ({pct:.1f}%)")
 
         # Log error breakdown
         if self.error_types:
