@@ -117,7 +117,7 @@ def calculate_relative_strength(stock_prices: pd.Series, spy_prices: pd.Series,
     rs = (stock_prices / spy_aligned) * 100
 
     # Fill any remaining NaN with forward fill
-    rs = rs.fillna(method='ffill')
+    rs = rs.ffill()
 
     return rs
 
