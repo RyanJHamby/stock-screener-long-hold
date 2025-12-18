@@ -7550,5 +7550,49 @@
   "VRE": {
     "last_updated": "2025-12-16T14:01:22.390787",
     "in_earnings_season": false
+  },
+  "AMSF": {
+    "last_updated": "2025-12-18T13:02:06.349935",
+    "in_earnings_season": false
+  },
+  "AVB": {
+    "last_updated": "2025-12-18T13:04:29.428158",
+    "in_earnings_season": false
+  },
+  "CHD": {
+    "last_updated": "2025-12-18T13:10:41.600009",
+    "in_earnings_season": false
+  },
+  "CHH": {
+    "last_updated": "2025-12-18T13:10:46.689953",
+    "in_earnings_season": false
+  },
+  "FET": {
+    "last_updated": "2025-12-18T13:20:23.475394",
+    "in_earnings_season": false
+  },
+  "GIS": {
+    "last_updated": "2025-12-18T13:23:23.622796",
+    "in_earnings_season": false
+  },
+  "PAYX": {
+    "last_updated": "2025-12-18T13:42:19.830921",
+    "in_earnings_season": false
+  },
+  "PG": {
+    "last_updated": "2025-12-18T13:43:09.048894",
+    "in_earnings_season": false
+  },
+  "RPM": {
+    "last_updated": "2025-12-18T13:47:46.893618",
+    "in_earnings_season": false
+  },
+  "RYN": {
+    "last_updated": "2025-12-18T13:48:18.743764",
+    "in_earnings_season": false
+  },
+  "YELP": {
+    "last_updated": "2025-12-18T14:02:06.832767",
+    "in_earnings_season": false
   }
 }
