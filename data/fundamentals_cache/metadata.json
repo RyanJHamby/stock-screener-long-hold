@@ -7766,5 +7766,41 @@
   "VEL": {
     "last_updated": "2026-01-05T14:02:17.748186",
     "in_earnings_season": false
+  },
+  "BBSI": {
+    "last_updated": "2026-01-06T13:06:46.979658",
+    "in_earnings_season": false
+  },
+  "CBAN": {
+    "last_updated": "2026-01-06T13:10:37.999512",
+    "in_earnings_season": false
+  },
+  "CNS": {
+    "last_updated": "2026-01-06T13:13:24.037728",
+    "in_earnings_season": false
+  },
+  "DRS": {
+    "last_updated": "2026-01-06T13:17:32.098997",
+    "in_earnings_season": false
+  },
+  "NGS": {
+    "last_updated": "2026-01-06T13:39:16.263872",
+    "in_earnings_season": false
+  },
+  "OTIS": {
+    "last_updated": "2026-01-06T13:42:47.268480",
+    "in_earnings_season": false
+  },
+  "UTI": {
+    "last_updated": "2026-01-06T13:59:18.412648",
+    "in_earnings_season": false
+  },
+  "WKC": {
+    "last_updated": "2026-01-06T14:01:43.408987",
+    "in_earnings_season": false
+  },
+  "ZTS": {
+    "last_updated": "2026-01-06T14:03:38.360713",
+    "in_earnings_season": false
   }
 }
