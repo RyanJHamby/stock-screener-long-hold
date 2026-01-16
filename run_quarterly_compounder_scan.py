@@ -255,6 +255,11 @@ class QuarterlyCompounderScan:
         logger.info("STEP 2: SCORE STOCKS")
         logger.info("=" * 80)
 
+        if self.use_real_data:
+            logger.info("📊 FETCHING REAL DATA from Yahoo Finance and fundamentals API")
+        else:
+            logger.info("📋 Using deterministic mock data (real data fetchers unavailable)")
+
         scored_stocks = {}
         failed_scores = 0
 
