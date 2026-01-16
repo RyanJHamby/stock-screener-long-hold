@@ -9,8 +9,9 @@ Provides helpers for calculating:
 """
 
 from typing import Optional, List, Dict, Tuple
-import numpy as np
 from datetime import datetime, timedelta
+import statistics
+import math
 
 
 class MetricsCalculator:
@@ -163,7 +164,12 @@ class MetricsCalculator:
 
         recent_margins = gross_margins[-periods:]
         current = recent_margins[-1]
-        std_dev = np.std(recent_margins)
+
+        # Calculate standard deviation (pure Python)
+        if len(recent_margins) > 1:
+            std_dev = statistics.stdev(recent_margins)
+        else:
+            std_dev = 0.0
 
         return (current, std_dev)
 
@@ -191,11 +197,14 @@ class MetricsCalculator:
         if not recent_revenues:
             return 1.0
 
-        mean_revenue = np.mean(recent_revenues)
+        mean_revenue = statistics.mean(recent_revenues)
         if mean_revenue <= 0:
             return 1.0
 
-        std_dev = np.std(recent_revenues)
+        if len(recent_revenues) > 1:
+            std_dev = statistics.stdev(recent_revenues)
+        else:
+            std_dev = 0.0
         cv = std_dev / mean_revenue  # Coefficient of variation
 
         return min(cv, 2.0)  # Cap at 200% variation
@@ -312,12 +321,28 @@ class MetricsCalculator:
             return 0.0
 
         recent_margins = net_margins[-periods:]
-        x = np.arange(len(recent_margins))
+        if len(recent_margins) < 2:
+            return 0.0
 
+        # Calculate linear regression slope using least-squares method
         try:
-            coefficients = np.polyfit(x, recent_margins, 1)
-            return coefficients[0]  # Slope
-        except (ValueError, np.linalg.LinAlgError):
+            n = len(recent_margins)
+            x = list(range(n))
+
+            # Calculate sums needed for linear regression
+            sum_x = sum(x)
+            sum_y = sum(recent_margins)
+            sum_xy = sum(xi * yi for xi, yi in zip(x, recent_margins))
+            sum_x2 = sum(xi * xi for xi in x)
+
+            # Slope = (n*sum(x*y) - sum(x)*sum(y)) / (n*sum(x²) - sum(x)²)
+            denominator = (n * sum_x2) - (sum_x * sum_x)
+            if denominator == 0:
+                return 0.0
+
+            slope = ((n * sum_xy) - (sum_x * sum_y)) / denominator
+            return slope
+        except (ValueError, ZeroDivisionError):
             return 0.0
 
     @staticmethod

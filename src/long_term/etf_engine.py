@@ -286,9 +286,9 @@ class ETFEngine:
                 f"Concentrated top-10 holdings ({score.top_10_concentration:.0f}%)"
             )
 
-        if score.sector_concentration > 85:
+        if score.sector_concentration_score > 10:
             score.thesis_drivers.append(
-                f"Pure-play theme exposure ({score.sector_concentration:.0f}% sector)"
+                f"Pure-play theme exposure (sector concentration score: {score.sector_concentration_score:.1f})"
             )
 
         # RS drivers

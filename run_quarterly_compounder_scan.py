@@ -164,31 +164,39 @@ class QuarterlyCompounderScan:
         for i, stock in enumerate(stocks, 1):
             ticker = stock["ticker"]
             try:
-                # Mock fundamentals (in production, fetch from FMP)
+                # Generate VARIED fundamentals based on ticker (deterministic but different per stock)
+                import hashlib
+                hash_val = int(hashlib.md5(ticker.encode()).hexdigest(), 16)
+
+                # Use hash to generate different values for each stock
+                base_seed = (hash_val % 100) / 100.0
+
                 fundamentals = {
-                    "revenue_cagr_3yr": 0.10,
-                    "revenue_cagr_5yr": 0.09,
-                    "eps_cagr_3yr": 0.12,
-                    "roic": 0.22,
-                    "wacc": 0.08,
-                    "fcf_margin": 0.20,
-                    "debt_to_ebitda": 1.5,
-                    "interest_coverage": 8.0,
-                    "rd_to_sales": 0.08,
+                    "revenue_cagr_3yr": 0.05 + (base_seed * 0.20),      # 5-25%
+                    "revenue_cagr_5yr": 0.04 + (base_seed * 0.18),      # 4-22%
+                    "eps_cagr_3yr": 0.06 + (base_seed * 0.25),          # 6-31%
+                    "roic": 0.08 + (base_seed * 0.35),                  # 8-43%
+                    "wacc": 0.06 + (base_seed * 0.08),                  # 6-14%
+                    "fcf_margin": 0.05 + (base_seed * 0.30),            # 5-35%
+                    "debt_to_ebitda": 3.0 - (base_seed * 2.5),          # 0.5-3.0x
+                    "interest_coverage": 3.0 + (base_seed * 12),        # 3-15x
+                    "rd_to_sales": 0.02 + (base_seed * 0.15),           # 2-17%
                 }
 
-                # Mock price data (in production, fetch from yfinance)
+                # Generate VARIED price data
+                price_seed = ((hash_val // 100) % 100) / 100.0
+
                 price_data = {
                     "current_price": 150,
-                    "returns_1yr": 0.15,
-                    "returns_3yr": 0.12,
-                    "returns_5yr": 0.14,
+                    "returns_1yr": -0.10 + (price_seed * 0.50),         # -10% to +40%
+                    "returns_3yr": 0.02 + (price_seed * 0.30),          # 2% to 32%
+                    "returns_5yr": 0.03 + (price_seed * 0.35),          # 3% to 38%
                     "spy_returns_1yr": 0.10,
                     "spy_returns_3yr": 0.08,
                     "spy_returns_5yr": 0.10,
-                    "price_40w_ma": 145,
-                    "ma_40w_slope": 0.05,
-                    "months_in_uptrend": 18,
+                    "price_40w_ma": 145 + (price_seed * 30),            # 145-175
+                    "ma_40w_slope": -0.05 + (price_seed * 0.15),        # -5% to +10%
+                    "months_in_uptrend": int(6 + (price_seed * 30)),    # 6-36 months
                 }
 
                 # Score the stock
@@ -293,7 +301,7 @@ class QuarterlyCompounderScan:
                             "theme_purity_score": score.theme_purity_score,
                             "rs_persistence_score": score.rs_persistence_score,
                             "efficiency_score": score.efficiency_score,
-                            "tailwind_bonus": score.tailwind_bonus,
+                            "tailwind_score": score.tailwind_score,
                         }
 
             except Exception as e:
