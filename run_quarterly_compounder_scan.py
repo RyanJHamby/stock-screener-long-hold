@@ -21,6 +21,7 @@ import sys
 import logging
 import argparse
 import json
+import time
 from datetime import datetime
 from pathlib import Path
 from typing import List, Dict, Optional, Tuple
@@ -257,16 +258,24 @@ class QuarterlyCompounderScan:
 
         if self.use_real_data:
             logger.info("📊 FETCHING REAL DATA from Yahoo Finance and fundamentals API")
+            logger.info("⏱️  Rate limiting: 0.5s delay between requests to avoid API limits")
         else:
             logger.info("📋 Using deterministic mock data (real data fetchers unavailable)")
 
         scored_stocks = {}
         failed_scores = 0
+        error_reasons = {}  # Track failure reasons
+        last_request_time = 0.0
 
         for i, stock in enumerate(stocks, 1):
             ticker = stock["ticker"]
             try:
                 if self.use_real_data:
+                    # Rate limiting - wait 0.5s between requests
+                    elapsed = time.time() - last_request_time
+                    if elapsed < 0.5:
+                        time.sleep(0.5 - elapsed)
+                    last_request_time = time.time()
                     # Fetch real price data
                     logger.debug(f"  Fetching price data for {ticker}...")
                     price_hist = self.price_fetcher.fetch_price_history(ticker, period='5y')
@@ -292,17 +301,23 @@ class QuarterlyCompounderScan:
                     # Convert quarterly data to 3-year CAGR format
                     fundamental_analysis = analyze_fundamentals_for_signal(quarterly_data)
 
-                    # Extract what we need for compounder scoring
+                    # Extract what we need for compounder scoring (with safe None handling)
+                    def safe_get(d, key, default):
+                        """Safely get value from dict, converting None to default."""
+                        val = d.get(key, default)
+                        return default if val is None else val
+
+                    # Build fundamentals dict with numeric type conversion
                     fundamentals = {
-                        "revenue_cagr_3yr": fundamental_analysis.get('revenue_growth', 0.0),
-                        "revenue_cagr_5yr": fundamental_analysis.get('revenue_growth', 0.0),  # Use 3y as proxy
-                        "eps_cagr_3yr": fundamental_analysis.get('eps_growth', 0.0),
-                        "roic": fundamental_analysis.get('roic', 0.15),  # Default to 15%
-                        "wacc": 0.08,  # Default WACC
-                        "fcf_margin": fundamental_analysis.get('fcf_margin', 0.05),
-                        "debt_to_ebitda": fundamental_analysis.get('debt_to_ebitda', 2.0),
-                        "interest_coverage": fundamental_analysis.get('interest_coverage', 5.0),
-                        "rd_to_sales": fundamental_analysis.get('rd_ratio', 0.05),
+                        "revenue_cagr_3yr": float(safe_get(fundamental_analysis, 'revenue_growth', 0.0)),
+                        "revenue_cagr_5yr": float(safe_get(fundamental_analysis, 'revenue_growth', 0.0)),
+                        "eps_cagr_3yr": float(safe_get(fundamental_analysis, 'eps_growth', 0.0)),
+                        "roic": float(safe_get(fundamental_analysis, 'roic', 0.15)),
+                        "wacc": 0.08,
+                        "fcf_margin": float(safe_get(fundamental_analysis, 'fcf_margin', 0.05)),
+                        "debt_to_ebitda": float(safe_get(fundamental_analysis, 'debt_to_ebitda', 2.0)),
+                        "interest_coverage": float(safe_get(fundamental_analysis, 'interest_coverage', 5.0)),
+                        "rd_to_sales": float(safe_get(fundamental_analysis, 'rd_ratio', 0.05)),
                     }
 
                     # Calculate price data metrics
@@ -314,25 +329,42 @@ class QuarterlyCompounderScan:
                     returns_3yr = ((current_price / price_3yr) ** (1/3) - 1) if price_3yr > 0 else 0.0
                     returns_5yr = ((current_price / price_5yr) ** (1/5) - 1) if price_5yr > 0 else 0.0
 
-                    # 40-week MA (200 days)
-                    ma_40w = price_hist['Close'].iloc[-200:].mean() if len(price_hist) > 200 else price_hist['Close'].mean()
-                    ma_40w_slope = (price_hist['Close'].iloc[-1] - price_hist['Close'].iloc[-50]) / price_hist['Close'].iloc[-50] if len(price_hist) > 50 else 0.0
+                    # 40-week MA (200 days) - with None handling
+                    try:
+                        ma_40w = float(price_hist['Close'].iloc[-200:].mean()) if len(price_hist) > 200 else float(price_hist['Close'].mean())
+                    except (ValueError, TypeError):
+                        ma_40w = current_price if current_price else 100.0
 
-                    # Months in uptrend
-                    recent_hist = price_hist.iloc[-252:] if len(price_hist) > 252 else price_hist
-                    months_in_uptrend = (recent_hist['Close'] > ma_40w).sum() // 20
+                    # MA slope - with None handling
+                    try:
+                        if len(price_hist) > 50:
+                            slope_val = (price_hist['Close'].iloc[-1] - price_hist['Close'].iloc[-50]) / price_hist['Close'].iloc[-50]
+                            ma_40w_slope = float(slope_val) if slope_val is not None else 0.0
+                        else:
+                            ma_40w_slope = 0.0
+                    except (ValueError, TypeError, ZeroDivisionError):
+                        ma_40w_slope = 0.0
 
+                    # Months in uptrend - with None handling
+                    try:
+                        recent_hist = price_hist.iloc[-252:] if len(price_hist) > 252 else price_hist
+                        uptrend_count = (recent_hist['Close'] > ma_40w).sum()
+                        months_in_uptrend = int(uptrend_count // 20) if uptrend_count else 0
+                    except (ValueError, TypeError):
+                        months_in_uptrend = 0
+
+                    # Ensure all values are numeric
                     price_data = {
-                        "current_price": current_price,
-                        "returns_1yr": returns_1yr,
-                        "returns_3yr": returns_3yr,
-                        "returns_5yr": returns_5yr,
+                        "current_price": float(current_price),
+                        "returns_1yr": float(returns_1yr),
+                        "returns_3yr": float(returns_3yr),
+                        "returns_5yr": float(returns_5yr),
                         "spy_returns_1yr": 0.10,
                         "spy_returns_3yr": 0.08,
                         "spy_returns_5yr": 0.10,
-                        "price_40w_ma": ma_40w,
-                        "ma_40w_slope": ma_40w_slope,
-                        "months_in_uptrend": months_in_uptrend,
+                        "price_40w_ma": float(ma_40w),
+                        "ma_40w_slope": float(ma_40w_slope),
+                        "months_in_uptrend": int(months_in_uptrend),
                     }
                 else:
                     # Use mock data (hash-based variation per stock)
@@ -383,14 +415,21 @@ class QuarterlyCompounderScan:
                 else:
                     failed_scores += 1
 
-                if i % 10 == 0:
-                    logger.info(f"  Scored {i}/{len(stocks)}...")
+                if i % 50 == 0:
+                    logger.info(f"  Progress: {i}/{len(stocks)} stocks processed ({len(scored_stocks)} scored)")
 
             except Exception as e:
-                logger.warning(f"  ⚠ Failed to score {ticker}: {e}")
+                error_msg = str(e)
+                error_type = type(e).__name__
+                logger.debug(f"  ⚠ Failed to score {ticker}: {error_type}: {error_msg}")
+                error_reasons[error_type] = error_reasons.get(error_type, 0) + 1
                 failed_scores += 1
 
         logger.info(f"✓ Scored {len(scored_stocks)} stocks ({failed_scores} failed)")
+        if error_reasons:
+            logger.info("Failure breakdown:")
+            for error_type, count in sorted(error_reasons.items(), key=lambda x: -x[1]):
+                logger.info(f"  {error_type}: {count}")
 
         return scored_stocks
 
