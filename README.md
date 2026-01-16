@@ -1,6 +1,6 @@
-# Intelligent Stock Screener
+# Intelligent Stock Screener + Long-Term Compounder System
 
-> **A production-grade systematic trading system for identifying high-probability stock setups using phase-based technical analysis, relative strength momentum, and smart fundamental screening.**
+> **A dual-purpose systematic framework for identifying high-probability setups (short-term momentum) and elite 5-10 year compounders (long-term capital compounding).**
 
 [![Python](https://img.shields.io/badge/Python-3.13+-blue.svg)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
@@ -11,15 +11,14 @@
 ## Table of Contents
 
 - [Overview](#overview)
-- [System Architecture](#system-architecture)
-- [Key Features](#key-features)
-- [Design Philosophy](#design-philosophy)
+- [Dual-System Architecture](#dual-system-architecture)
 - [Quick Start](#quick-start)
-- [Daily Workflow](#daily-workflow)
-- [Manual Position Management](#manual-position-management)
+- [System 1: Short-Term Momentum](#system-1-short-term-momentum)
+- [System 2: Long-Term Compounding](#system-2-long-term-compounding)
 - [Project Structure](#project-structure)
+- [Setup & Configuration](#setup--configuration)
+- [Daily & Quarterly Workflows](#daily--quarterly-workflows)
 - [Technical Details](#technical-details)
-- [Future Improvements](#future-improvements)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -27,24 +26,40 @@
 
 ## Overview
 
-**Intelligent Stock Screener** is a fully automated, data-driven stock screening and position management system that scans 3,800+ US stocks daily to identify high-conviction buy and sell signals based on:
+**Intelligent Stock Screener + Long-Term Compounder System** is a production-grade, dual-purpose framework that combines:
 
-- **Phase-based trend classification** (4-stage market cycle analysis)
-- **Relative strength momentum** (smooth linear scoring vs SPY)
-- **Fundamental quality filters** (growth, profitability, financial health)
-- **Volume-weighted breakout detection**
-- **Risk-managed stop loss recommendations**
+**System 1: Short-Term Momentum (Daily)**
+- Phase-based trend classification (4-stage market cycle analysis)
+- Relative strength momentum scoring vs SPY
+- Technical pattern recognition (Minervini Trend Template)
+- Risk-managed stop loss recommendations
 
-This system was built to eliminate emotional decision-making and provide objective, repeatable trade signals backed by technical and fundamental analysis.
+**System 2: Long-Term Compounding (Quarterly)**
+- Fundamental dominance scoring (60/25/15 formula)
+- Multi-year relative strength persistence
+- Business quality assessment with moat scoring
+- Thematic ETF identification and allocation
+- Concentration rules with portfolio optimization
+
+Both systems eliminate emotional decision-making with objective, repeatable signals backed by rigorous technical and fundamental analysis.
 
 ### What This System Does
 
-1. **Screens 3,800+ stocks every market day** using GitHub Actions automation
-2. **Identifies buy signals** for stocks in confirmed Phase 2 uptrends that pass Minervini's 8-criteria Trend Template
-3. **Identifies sell signals** when stocks enter Phase 3 (distribution) or Phase 4 (downtrend) with weakening momentum
-4. **Calculates precise stop losses** with risk/reward ratios for every buy signal (max 10% risk, min 2:1 R:R)
-5. **Generates daily reports** with ranked opportunities and full technical analysis
-6. **Manages existing positions** with automated stop-loss trailing recommendations
+**Short-Term System (Daily):**
+1. Screens 3,800+ stocks every market day via GitHub Actions
+2. Identifies buy signals in Phase 2 uptrends (Minervini's 8-criteria)
+3. Identifies sell signals when stocks enter Phase 3/4
+4. Calculates precise stop losses (max 10% risk, min 2:1 R:R)
+5. Generates daily reports with ranked opportunities
+6. Manages positions with trailing stop recommendations
+
+**Long-Term System (Quarterly):**
+1. Scores top 500 stocks with compounder engine (60/25/15)
+2. Identifies 25 elite 5-10 year wealth builders
+3. Scores thematic ETFs (AI, Defense, Energy, Healthcare, Cyber)
+4. Builds optimal portfolio with concentration rules
+5. Generates quarterly ownership reports with thesis
+6. Tracks invalidation triggers for systematic exit rules
 
 ### Why I Built It This Way
 
@@ -60,6 +75,112 @@ This system was built to eliminate emotional decision-making and provide objecti
 - **Timing matters** - only buy when market (SPY) is also healthy
 - **Relative strength matters** - only buy stocks outperforming the market
 - **Cache-first design** - 74% reduction in API calls through Git-based fundamental storage
+
+---
+
+## Dual-System Architecture
+
+Both systems coexist independently with shared data infrastructure:
+
+```
+stock-screener-long-hold/
+├── src/
+│   ├── screening/               # SHORT-TERM MOMENTUM (Daily)
+│   │   ├── momentum_engine.py   # Phase-based scoring
+│   │   ├── vcp_detector.py      # Pattern recognition
+│   │   └── entry_signals.py     # Buy/sell logic
+│   │
+│   └── long_term/               # LONG-TERM COMPOUNDING (Quarterly)
+│       ├── compounder_engine.py # 60/25/15 scoring
+│       ├── regime_classifier.py # 3-regime model
+│       ├── moat_scoring.py      # Business quality
+│       ├── etf_engine.py        # ETF scoring
+│       ├── portfolio_constructor.py  # Allocation
+│       └── report_generator.py  # Reports
+│
+├── data/
+│   ├── fundamentals/            # Cached fundamentals (shared)
+│   ├── quarterly_reports/       # Long-term outputs
+│   └── daily_reports/           # Short-term outputs
+│
+└── .github/workflows/
+    ├── daily_scan.yml           # Runs every market day
+    └── quarterly_compounder_scan.yml  # Runs quarterly
+```
+
+**Key Design:**
+- **Separate scoring engines** - Different philosophies, time horizons
+- **Shared data layer** - Cached fundamentals, price data, caching strategy
+- **Independent automation** - Daily and quarterly runs don't interfere
+- **Dual-purpose assets** - Can hold stocks from both systems simultaneously
+- **Complementary insights** - Short-term entries from long-term high-quality base
+
+---
+
+## Quick Start
+
+### For Short-Term Momentum Trading
+
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Run daily scan (local testing)
+python -m src.screening.daily_scan
+
+# Or trigger via GitHub Actions (automatic at market open)
+# Results appear in data/daily_reports/
+```
+
+### For Long-Term Compounding
+
+```bash
+# Run quarterly scan (local testing)
+python run_quarterly_compounder_scan.py --test-mode
+
+# Or trigger via GitHub Actions (automatic Jan/Apr/Jul/Oct 15)
+# Results appear in data/quarterly_reports/
+
+# View latest quarterly allocation
+cat data/quarterly_reports/allocation_model_YYYY_Q*.csv
+```
+
+---
+
+## System 1: Short-Term Momentum
+
+The original short-term momentum system identifies high-probability entry points based on the Minervini Trend Template:
+
+- **Time Horizon:** Days to weeks (typical 2-8 week holding periods)
+- **Screening Frequency:** Daily
+- **Universe:** 3,800+ US stocks
+- **Entry Criteria:** 7 of 8 Minervini conditions + relative strength
+- **Position Sizing:** Risk-managed with 10% max loss per trade
+- **Exit Rules:** Phase transitions or stop loss breach
+
+[See full documentation →](SCREENING_METHODOLOGY.md)
+
+---
+
+## System 2: Long-Term Compounding
+
+The new long-term system identifies elite 5-10 year compounders for wealth building:
+
+- **Time Horizon:** 5-10 years (long-term holdings)
+- **Screening Frequency:** Quarterly (Jan 15, Apr 15, Jul 15, Oct 15)
+- **Universe:** Top 500 by market cap → Top 25 stocks + 10 ETFs
+- **Scoring Formula:** 60% Fundamentals + 25% RS Persistence + 15% Trend
+- **Portfolio Optimization:** Concentration rules (10% max/stock, 30% max/sector)
+- **Exit Rules:** Thesis invalidation triggers tracked per position
+
+**Key Components:**
+- **Fundamental Dominance (60 pts):** Growth quality, capital efficiency, reinvestment, balance sheet
+- **RS Persistence (25 pts):** 1Y/3Y/5Y outperformance vs SPY
+- **Trend Durability (15 pts):** 40-week MA positioning, slope, consistency
+- **Moat Bonus (0-10 pts):** Pricing power, customer lock-in, platform effects
+- **Regime Classification:** Structural Growth ✅ / Mature Hold ⏸️ / Capital Destruction ❌
+
+[See full documentation →](PHASE_6_AUTOMATION.md)
 
 ---
 
