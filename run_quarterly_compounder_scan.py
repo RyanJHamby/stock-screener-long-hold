@@ -64,14 +64,16 @@ class QuarterlyCompounderScan:
             try:
                 from src.data.universe_fetcher import USStockUniverseFetcher
                 from src.data.fetcher import YahooFinanceFetcher
-                from src.data.fundamentals_fetcher import fetch_quarterly_financials, analyze_fundamentals_for_signal
+                from src.long_term.data_fetcher import LongTermFundamentalsFetcher
                 self.universe_fetcher = USStockUniverseFetcher()
                 self.price_fetcher = YahooFinanceFetcher()
+                self.fundamentals_fetcher = LongTermFundamentalsFetcher()
                 self.use_real_data = True
             except (ImportError, ModuleNotFoundError) as e:
                 logger.warning(f"⚠ Real data fetchers unavailable ({e}) - using mock data")
                 self.universe_fetcher = None
                 self.price_fetcher = None
+                self.fundamentals_fetcher = None
                 self.use_real_data = False
 
             self.etf_engine = ETFEngine(universe=self.etf_universe)
@@ -288,36 +290,30 @@ class QuarterlyCompounderScan:
                     price_data_df = price_hist.tail(252) if len(price_hist) > 252 else price_hist
                     current_price = price_data_df['Close'].iloc[-1]
 
-                    # Fetch real fundamentals
+                    # Fetch real 5-year fundamentals
                     logger.debug(f"  Fetching fundamentals for {ticker}...")
-                    from src.data.fundamentals_fetcher import fetch_quarterly_financials, analyze_fundamentals_for_signal
-                    quarterly_data = fetch_quarterly_financials(ticker)
-
-                    if not quarterly_data:
-                        logger.debug(f"  ⚠ No fundamentals found for {ticker}")
-                        failed_scores += 1
-                        continue
-
-                    # Convert quarterly data to 3-year CAGR format
-                    fundamental_analysis = analyze_fundamentals_for_signal(quarterly_data)
+                    fundamentals_obj = self.fundamentals_fetcher.fetch(ticker)
 
                     # Extract what we need for compounder scoring (with safe None handling)
-                    def safe_get(d, key, default):
-                        """Safely get value from dict, converting None to default."""
-                        val = d.get(key, default)
+                    def safe_get_attr(obj, attr, default):
+                        """Safely get attribute from object, converting None to default."""
+                        if obj is None:
+                            return default
+                        val = getattr(obj, attr, default)
                         return default if val is None else val
 
-                    # Build fundamentals dict with numeric type conversion
+                    # Build fundamentals dict with numeric type conversion using LongTermFundamentals attributes
+                    # Uses defaults when fundamentals unavailable (no FMP API key)
                     fundamentals = {
-                        "revenue_cagr_3yr": float(safe_get(fundamental_analysis, 'revenue_growth', 0.0)),
-                        "revenue_cagr_5yr": float(safe_get(fundamental_analysis, 'revenue_growth', 0.0)),
-                        "eps_cagr_3yr": float(safe_get(fundamental_analysis, 'eps_growth', 0.0)),
-                        "roic": float(safe_get(fundamental_analysis, 'roic', 0.15)),
-                        "wacc": 0.08,
-                        "fcf_margin": float(safe_get(fundamental_analysis, 'fcf_margin', 0.05)),
-                        "debt_to_ebitda": float(safe_get(fundamental_analysis, 'debt_to_ebitda', 2.0)),
-                        "interest_coverage": float(safe_get(fundamental_analysis, 'interest_coverage', 5.0)),
-                        "rd_to_sales": float(safe_get(fundamental_analysis, 'rd_ratio', 0.05)),
+                        "revenue_cagr_3yr": float(safe_get_attr(fundamentals_obj, 'revenue_cagr_3yr', 0.03)),
+                        "revenue_cagr_5yr": float(safe_get_attr(fundamentals_obj, 'revenue_cagr_5yr', 0.03)),
+                        "eps_cagr_3yr": float(safe_get_attr(fundamentals_obj, 'eps_cagr_3yr', 0.05)),
+                        "roic": float(safe_get_attr(fundamentals_obj, 'roic_3yr', 0.12)),
+                        "wacc": float(safe_get_attr(fundamentals_obj, 'wacc', 0.08)),
+                        "fcf_margin": float(safe_get_attr(fundamentals_obj, 'fcf_margin_3yr', 0.10)),
+                        "debt_to_ebitda": float(safe_get_attr(fundamentals_obj, 'debt_to_ebitda', 2.0)),
+                        "interest_coverage": float(safe_get_attr(fundamentals_obj, 'interest_coverage', 5.0)),
+                        "rd_to_sales": 0.05,  # Not always available
                     }
 
                     # Calculate price data metrics
