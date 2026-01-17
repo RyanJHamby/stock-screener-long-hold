@@ -310,6 +310,7 @@ class QuarterlyCompounderScan:
                         "eps_cagr_3yr": float(safe_get_attr(fundamentals_obj, 'eps_cagr_3yr', 0.05)),
                         "roic": float(safe_get_attr(fundamentals_obj, 'roic_3yr', 0.12)),
                         "wacc": float(safe_get_attr(fundamentals_obj, 'wacc', 0.08)),
+                        "roic_wacc_spread": float(safe_get_attr(fundamentals_obj, 'roic_wacc_spread', 0.04)),
                         "fcf_margin": float(safe_get_attr(fundamentals_obj, 'fcf_margin_3yr', 0.10)),
                         "debt_to_ebitda": float(safe_get_attr(fundamentals_obj, 'debt_to_ebitda', 2.0)),
                         "interest_coverage": float(safe_get_attr(fundamentals_obj, 'interest_coverage', 5.0)),
@@ -349,6 +350,18 @@ class QuarterlyCompounderScan:
                     except (ValueError, TypeError):
                         months_in_uptrend = 0
 
+                    # Calculate max drawdown (3-year window if available)
+                    try:
+                        recent_hist = price_hist.tail(756) if len(price_hist) > 756 else price_hist
+                        running_max = recent_hist['Close'].cummax()
+                        drawdown = (recent_hist['Close'] - running_max) / running_max
+                        max_drawdown_3yr = float(drawdown.min())  # Most negative value
+                    except (ValueError, TypeError):
+                        max_drawdown_3yr = -0.30  # Conservative default
+
+                    # Assume SPY max drawdown for reference
+                    spy_max_drawdown_3yr = -0.15  # Historical average
+
                     # Ensure all values are numeric
                     price_data = {
                         "current_price": float(current_price),
@@ -358,6 +371,8 @@ class QuarterlyCompounderScan:
                         "spy_returns_1yr": 0.10,
                         "spy_returns_3yr": 0.08,
                         "spy_returns_5yr": 0.10,
+                        "max_drawdown_3yr": float(max_drawdown_3yr),
+                        "spy_max_drawdown_3yr": float(spy_max_drawdown_3yr),
                         "price_40w_ma": float(ma_40w),
                         "ma_40w_slope": float(ma_40w_slope),
                         "months_in_uptrend": int(months_in_uptrend),

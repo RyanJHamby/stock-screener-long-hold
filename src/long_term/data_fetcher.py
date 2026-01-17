@@ -63,10 +63,15 @@ class LongTermFundamentalsFetcher:
             cache_dir: Directory to cache fundamental data
             cache_expiry_days: Days before cache expires (default 90)
         """
-        # Import here to avoid circular imports
-        from src.data.fmp_fetcher import FMPFetcher
+        # Only initialize FMP if API key exists - avoid wasting time on failed calls
+        fmp_api_key = os.getenv('FMP_API_KEY')
+        if fmp_api_key:
+            from src.data.fmp_fetcher import FMPFetcher
+            self.fmp = FMPFetcher()  # Uses FMP_API_KEY env var
+        else:
+            self.fmp = None
+            logger.info("FMP API key not found - will use yfinance for all fundamentals")
 
-        self.fmp = FMPFetcher()  # Uses FMP_API_KEY env var
         self.cache_dir = cache_dir
         self.cache_expiry_days = cache_expiry_days
 
@@ -97,11 +102,15 @@ class LongTermFundamentalsFetcher:
         logger.info(f"Fetching long-term fundamentals for {ticker}")
 
         try:
-            # Try FMP first, fall back to yfinance
+            # Try FMP first if available, otherwise go straight to yfinance
+            if self.fmp is None:
+                logger.debug(f"FMP not initialized, using yfinance for {ticker}")
+                return self._fetch_from_yfinance(ticker)
+
             fundamentals_data = self.fmp.fetch_comprehensive_fundamentals(ticker)
 
             if not fundamentals_data:
-                logger.info(f"FMP unavailable for {ticker}, using yfinance fundamentals")
+                logger.debug(f"No FMP data for {ticker}, using yfinance fundamentals")
                 return self._fetch_from_yfinance(ticker)
 
             # Extract and organize data (note: keys are singular, not plural)
@@ -110,7 +119,7 @@ class LongTermFundamentalsFetcher:
             cash_flows = fundamentals_data.get("cash_flow", [])
 
             if not income_statements or not balance_sheets or not cash_flows:
-                logger.info(f"Incomplete FMP data for {ticker}, using yfinance fundamentals")
+                logger.debug(f"Incomplete FMP data for {ticker}, using yfinance fundamentals")
                 return self._fetch_from_yfinance(ticker)
 
             # Create fundamentals object
@@ -244,9 +253,36 @@ class LongTermFundamentalsFetcher:
                     revenue_cagr_5yr = 0.05
 
             # Set metrics from yfinance + calculated
-            fundamentals.roic_3yr = info.get('returnOnEquity', 0.15)
-            fundamentals.roic_5yr = info.get('returnOnEquity', 0.15)
-            fundamentals.wacc = 0.08  # Conservative default
+            roe = info.get('returnOnEquity', 0.15)
+            roic = roe  # Approximate ROIC with ROE (not perfect, but reasonable)
+
+            fundamentals.roic_3yr = roic
+            fundamentals.roic_5yr = roic
+
+            # Calculate WACC approximation: cost_of_equity (from CAPM assumptions)
+            # Simplified: assume risk_free_rate=2%, market_premium=6%, beta=1.0
+            risk_free_rate = 0.02
+            market_premium = 0.06
+            beta = 1.0
+            cost_of_equity = risk_free_rate + (beta * market_premium)  # ~8%
+
+            total_debt = info.get('totalDebt', 0)
+            total_equity = info.get('totalAssets', 0) - total_debt if info.get('totalAssets', 0) > 0 else current_revenue * 2
+
+            if total_equity > 0 and (total_debt + total_equity) > 0:
+                weight_debt = total_debt / (total_debt + total_equity)
+                weight_equity = total_equity / (total_debt + total_equity)
+                cost_of_debt = info.get('totalDebt', 0) / info.get('operatingCashflow', 1) if info.get('operatingCashflow', 1) > 0 else 0.05
+                tax_rate = 0.21
+                wacc = (weight_equity * cost_of_equity) + (weight_debt * cost_of_debt * (1 - tax_rate))
+            else:
+                wacc = cost_of_equity
+
+            fundamentals.wacc = max(wacc, 0.05)  # At least 5%
+
+            # ROIC-WACC spread
+            fundamentals.roic_wacc_spread = roic - fundamentals.wacc
+
             fundamentals.fcf_margin_3yr = current_fcf / current_revenue if current_revenue > 0 else 0.10
             fundamentals.revenue_cagr_3yr = revenue_cagr_3yr
             fundamentals.revenue_cagr_5yr = revenue_cagr_5yr
@@ -256,15 +292,19 @@ class LongTermFundamentalsFetcher:
             fundamentals.data_quality_score = 70.0  # Better quality with quarterly data
 
             # Calculate debt metrics
-            total_debt = info.get('totalDebt', 0)
-            ebitda = current_revenue * info.get('operatingMargins', 0.15)
+            ebitda = current_revenue * info.get('operatingMargins', 0.15) if current_revenue > 0 else 100
 
             if ebitda > 0:
                 fundamentals.debt_to_ebitda = min(total_debt / ebitda, 10.0)
             else:
                 fundamentals.debt_to_ebitda = 5.0
 
-            fundamentals.interest_coverage = 5.0  # Conservative default
+            # Interest coverage: EBITDA / Interest Expense
+            interest_expense = info.get('totalDebt', 0) * 0.05  # Assume 5% interest rate
+            if interest_expense > 0:
+                fundamentals.interest_coverage = ebitda / interest_expense
+            else:
+                fundamentals.interest_coverage = 10.0  # Assume excellent if no debt
 
             # Cache the result
             self._save_to_cache(fundamentals)
