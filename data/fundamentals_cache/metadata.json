@@ -4,7 +4,7 @@
     "in_earnings_season": true
   },
   "MSFT": {
-    "last_updated": "2026-01-15T13:39:34.845427",
+    "last_updated": "2026-01-28T13:46:16.861165",
     "in_earnings_season": true
   },
   "GOOGL": {
@@ -2300,7 +2300,7 @@
     "in_earnings_season": true
   },
   "ESOA": {
-    "last_updated": "2026-01-21T13:27:21.920021",
+    "last_updated": "2026-01-28T13:28:43.816396",
     "in_earnings_season": true
   },
   "ET": {
@@ -2544,8 +2544,8 @@
     "in_earnings_season": true
   },
   "FIZZ": {
-    "last_updated": "2025-12-04T13:50:00.664354",
-    "in_earnings_season": false
+    "last_updated": "2026-01-28T13:30:43.869602",
+    "in_earnings_season": true
   },
   "FLG": {
     "last_updated": "2025-12-04T13:50:03.648459",
@@ -4940,8 +4940,8 @@
     "in_earnings_season": false
   },
   "PEG": {
-    "last_updated": "2025-12-04T14:06:13.033757",
-    "in_earnings_season": false
+    "last_updated": "2026-01-28T13:52:34.958420",
+    "in_earnings_season": true
   },
   "PEGA": {
     "last_updated": "2025-12-04T14:06:13.820327",
@@ -7184,8 +7184,8 @@
     "in_earnings_season": true
   },
   "VTS": {
-    "last_updated": "2025-12-10T14:01:20.748123",
-    "in_earnings_season": false
+    "last_updated": "2026-01-28T14:09:22.923920",
+    "in_earnings_season": true
   },
   "AIG": {
     "last_updated": "2025-12-11T01:56:19.203660",
@@ -7504,8 +7504,8 @@
     "in_earnings_season": true
   },
   "CALM": {
-    "last_updated": "2025-12-16T13:11:08.896019",
-    "in_earnings_season": false
+    "last_updated": "2026-01-28T13:19:00.677929",
+    "in_earnings_season": true
   },
   "CMCSA": {
     "last_updated": "2026-01-23T13:18:02.434978",
@@ -7956,7 +7956,7 @@
     "in_earnings_season": true
   },
   "CODA": {
-    "last_updated": "2026-01-21T13:20:53.893275",
+    "last_updated": "2026-01-28T13:22:14.850602",
     "in_earnings_season": true
   },
   "CRWV": {
@@ -8004,7 +8004,7 @@
     "in_earnings_season": true
   },
   "JAKK": {
-    "last_updated": "2026-01-21T13:37:52.035523",
+    "last_updated": "2026-01-28T13:39:15.797077",
     "in_earnings_season": true
   },
   "CSGP": {
@@ -8045,6 +8045,10 @@
   },
   "SRCE": {
     "last_updated": "2026-01-27T14:01:53.192474",
+    "in_earnings_season": true
+  },
+  "TXO": {
+    "last_updated": "2026-01-28T14:06:32.088894",
     "in_earnings_season": true
   }
 }
