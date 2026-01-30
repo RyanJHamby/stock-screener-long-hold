@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "MEOH",
-    "fetch_date": "2026-01-23T13:41:02.726215",
+    "fetch_date": "2026-01-30T13:50:27.698756",
     "quarterly_revenue": {
       "2024-09-30 00:00:00": 934801000.0,
       "2024-12-31 00:00:00": 948960000.0,
@@ -35,5 +35,5 @@
     "inventory_to_sales_ratio": 0.593,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-01-23T13:41:02.727695"
+  "fetched_at": "2026-01-30T13:50:27.700263"
 }

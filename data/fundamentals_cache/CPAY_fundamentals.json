@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "CPAY",
-    "fetch_date": "2026-01-23T13:19:03.371412",
+    "fetch_date": "2026-01-30T13:28:26.501719",
     "quarterly_revenue": {
       "2024-06-30 00:00:00": NaN,
       "2024-09-30 00:00:00": 1029197000.0,
@@ -27,5 +27,5 @@
     "operating_margin": 44.62,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-01-23T13:19:03.372565"
+  "fetched_at": "2026-01-30T13:28:26.502909"
 }

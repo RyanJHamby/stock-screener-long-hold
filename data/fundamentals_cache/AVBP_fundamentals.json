@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "AVBP",
-    "fetch_date": "2026-01-23T13:10:52.280774",
+    "fetch_date": "2026-01-30T13:20:16.308170",
     "quarterly_revenue": {
       "2024-06-30 00:00:00": NaN,
       "2024-09-30 00:00:00": 0.0,
@@ -25,5 +25,5 @@
     "operating_margin": 0,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-01-23T13:10:52.281644"
+  "fetched_at": "2026-01-30T13:20:16.309013"
 }

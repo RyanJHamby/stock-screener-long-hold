@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "RITM",
-    "fetch_date": "2026-01-23T13:53:12.888633",
+    "fetch_date": "2026-01-30T14:02:38.872654",
     "quarterly_revenue": {
       "2024-06-30 00:00:00": NaN,
       "2024-09-30 00:00:00": 486571000.0,
@@ -24,5 +24,5 @@
     "eps_yoy_change": 74.99999999999997,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-01-23T13:53:12.889277"
+  "fetched_at": "2026-01-30T14:02:38.873297"
 }

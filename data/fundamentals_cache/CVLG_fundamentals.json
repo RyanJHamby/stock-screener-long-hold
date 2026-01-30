@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "CVLG",
-    "fetch_date": "2026-01-23T13:20:30.383363",
+    "fetch_date": "2026-01-30T13:29:53.528757",
     "quarterly_revenue": {
       "2024-09-30 00:00:00": 287885000.0,
       "2024-12-31 00:00:00": 277331000.0,
@@ -35,5 +35,5 @@
     "inventory_to_sales_ratio": 0.021,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-01-23T13:20:30.384868"
+  "fetched_at": "2026-01-30T13:29:53.530231"
 }
