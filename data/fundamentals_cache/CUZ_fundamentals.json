@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "CUZ",
-    "fetch_date": "2026-01-23T13:20:22.494350",
+    "fetch_date": "2026-02-05T13:36:31.591696",
     "quarterly_revenue": {
       "2024-06-30 00:00:00": NaN,
       "2024-09-30 00:00:00": 209212000.0,
@@ -27,5 +27,5 @@
     "operating_margin": 21.55,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-01-23T13:20:22.495497"
+  "fetched_at": "2026-02-05T13:36:31.593174"
 }
