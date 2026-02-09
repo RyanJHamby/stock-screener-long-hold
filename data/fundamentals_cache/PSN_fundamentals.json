@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "PSN",
-    "fetch_date": "2026-01-30T14:00:21.804117",
+    "fetch_date": "2026-02-09T14:25:41.404021",
     "quarterly_revenue": {
       "2024-09-30 00:00:00": 1810116000.0,
       "2024-12-31 00:00:00": 1734317000.0,
@@ -25,5 +25,5 @@
     "operating_margin": 6.15,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-01-30T14:00:21.805267"
+  "fetched_at": "2026-02-09T14:25:41.405328"
 }
