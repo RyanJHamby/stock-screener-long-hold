@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "FTI",
-    "fetch_date": "2026-02-06T13:41:26.044655",
+    "fetch_date": "2026-02-13T13:42:44.074138",
     "quarterly_revenue": {
       "2024-06-30 00:00:00": NaN,
       "2024-09-30 00:00:00": 2348400000.0,
@@ -37,5 +37,5 @@
     "inventory_to_sales_ratio": 0.448,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-02-06T13:41:26.046653"
+  "fetched_at": "2026-02-13T13:42:44.075647"
 }

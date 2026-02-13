@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "AMGN",
-    "fetch_date": "2026-02-06T13:21:26.219652",
+    "fetch_date": "2026-02-13T13:22:45.490518",
     "quarterly_revenue": {
       "2024-09-30 00:00:00": 8503000000.0,
       "2024-12-31 00:00:00": 9086000000.0,
@@ -37,5 +37,5 @@
     "inventory_to_sales_ratio": NaN,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-02-06T13:21:26.221362"
+  "fetched_at": "2026-02-13T13:22:45.491977"
 }

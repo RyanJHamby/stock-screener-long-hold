@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "FET",
-    "fetch_date": "2026-02-06T13:39:48.753704",
+    "fetch_date": "2026-02-13T13:41:06.934125",
     "quarterly_revenue": {
       "2024-06-30 00:00:00": NaN,
       "2024-09-30 00:00:00": 207806000.0,
@@ -36,5 +36,5 @@
     "inventory_to_sales_ratio": 1.265,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-02-06T13:39:48.756564"
+  "fetched_at": "2026-02-13T13:41:06.935602"
 }

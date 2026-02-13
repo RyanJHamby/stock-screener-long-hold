@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "LNKB",
-    "fetch_date": "2026-02-06T13:52:10.505963",
+    "fetch_date": "2026-02-13T13:53:26.930597",
     "quarterly_revenue": {
       "2024-06-30 00:00:00": NaN,
       "2024-09-30 00:00:00": 27661000.0,
@@ -26,5 +26,5 @@
     "eps_yoy_change": -60.0,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-02-06T13:52:10.506670"
+  "fetched_at": "2026-02-13T13:53:26.931299"
 }

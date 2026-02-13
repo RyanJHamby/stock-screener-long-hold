@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "STEL",
-    "fetch_date": "2026-02-06T14:11:59.378367",
+    "fetch_date": "2026-02-13T14:13:17.390293",
     "quarterly_revenue": {
       "2024-06-30 00:00:00": NaN,
       "2024-09-30 00:00:00": 107809000.0,
@@ -26,5 +26,5 @@
     "eps_yoy_change": -1.9230769230769247,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-02-06T14:11:59.379040"
+  "fetched_at": "2026-02-13T14:13:17.390974"
 }

@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "DDS",
-    "fetch_date": "2026-02-06T13:34:37.732450",
+    "fetch_date": "2026-02-13T13:35:58.000281",
     "quarterly_revenue": {
       "2024-10-31 00:00:00": 1451160000.0,
       "2025-01-31 00:00:00": 2051616000.0,
@@ -35,5 +35,5 @@
     "inventory_to_sales_ratio": 1.152,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-02-06T13:34:37.734142"
+  "fetched_at": "2026-02-13T13:35:58.001810"
 }

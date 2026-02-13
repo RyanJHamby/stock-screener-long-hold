@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "DRI",
-    "fetch_date": "2026-02-06T13:35:42.770826",
+    "fetch_date": "2026-02-13T13:37:03.941598",
     "quarterly_revenue": {
       "2024-08-31 00:00:00": NaN,
       "2024-11-30 00:00:00": 2890000000.0,
@@ -38,5 +38,5 @@
     "inventory_to_sales_ratio": 0.114,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-02-06T13:35:42.772745"
+  "fetched_at": "2026-02-13T13:37:03.943148"
 }
