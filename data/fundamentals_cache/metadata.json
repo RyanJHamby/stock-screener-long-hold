@@ -1520,7 +1520,7 @@
     "in_earnings_season": true
   },
   "COLB": {
-    "last_updated": "2025-12-04T13:43:46.169348",
+    "last_updated": "2026-03-13T13:31:46.227565",
     "in_earnings_season": false
   },
   "COLL": {
@@ -7288,7 +7288,7 @@
     "in_earnings_season": true
   },
   "SKWD": {
-    "last_updated": "2025-12-11T02:46:07.362108",
+    "last_updated": "2026-03-13T14:09:29.269313",
     "in_earnings_season": false
   },
   "STRK": {
@@ -8205,6 +8205,10 @@
   },
   "MNTN": {
     "last_updated": "2026-03-11T13:56:50.809867",
+    "in_earnings_season": false
+  },
+  "UAN": {
+    "last_updated": "2026-03-13T14:15:58.430712",
     "in_earnings_season": false
   }
 }
