@@ -2676,7 +2676,7 @@
     "in_earnings_season": false
   },
   "FWONK": {
-    "last_updated": "2025-12-04T13:50:59.966370",
+    "last_updated": "2026-03-17T14:06:30.979781",
     "in_earnings_season": false
   },
   "FWRD": {
@@ -8209,6 +8209,10 @@
   },
   "UAN": {
     "last_updated": "2026-03-13T14:15:58.430712",
+    "in_earnings_season": false
+  },
+  "GHM": {
+    "last_updated": "2026-03-17T14:07:27.070492",
     "in_earnings_season": false
   }
 }
