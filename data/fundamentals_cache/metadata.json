@@ -3232,7 +3232,7 @@
     "in_earnings_season": false
   },
   "HVT": {
-    "last_updated": "2025-12-04T13:54:28.588792",
+    "last_updated": "2026-03-18T14:12:59.364098",
     "in_earnings_season": false
   },
   "HWC": {
@@ -8213,6 +8213,10 @@
   },
   "GHM": {
     "last_updated": "2026-03-17T14:07:27.070492",
+    "in_earnings_season": false
+  },
+  "RAAQ": {
+    "last_updated": "2026-03-18T14:31:46.338180",
     "in_earnings_season": false
   }
 }
