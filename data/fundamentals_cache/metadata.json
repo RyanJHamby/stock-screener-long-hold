@@ -744,7 +744,7 @@
     "in_earnings_season": true
   },
   "BALY": {
-    "last_updated": "2025-12-04T13:38:25.112129",
+    "last_updated": "2026-03-23T13:33:25.745820",
     "in_earnings_season": false
   },
   "BALL": {
@@ -2468,7 +2468,7 @@
     "in_earnings_season": true
   },
   "FEIM": {
-    "last_updated": "2025-12-04T13:49:34.032469",
+    "last_updated": "2026-03-23T13:48:25.998450",
     "in_earnings_season": false
   },
   "FELE": {
@@ -8221,6 +8221,30 @@
   },
   "CCBG": {
     "last_updated": "2026-03-20T13:29:01.187544",
+    "in_earnings_season": false
+  },
+  "ARTNA": {
+    "last_updated": "2026-03-23T13:31:48.855319",
+    "in_earnings_season": false
+  },
+  "HBCP": {
+    "last_updated": "2026-03-23T13:53:14.965670",
+    "in_earnings_season": false
+  },
+  "NHC": {
+    "last_updated": "2026-03-23T14:06:17.118150",
+    "in_earnings_season": false
+  },
+  "PHI": {
+    "last_updated": "2026-03-23T14:11:21.311852",
+    "in_earnings_season": false
+  },
+  "PRK": {
+    "last_updated": "2026-03-23T14:12:35.146673",
+    "in_earnings_season": false
+  },
+  "SPFI": {
+    "last_updated": "2026-03-23T14:19:57.164647",
     "in_earnings_season": false
   }
 }
