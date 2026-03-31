@@ -8274,5 +8274,21 @@
   "NPK": {
     "last_updated": "2026-03-27T14:04:13.528897",
     "in_earnings_season": false
+  },
+  "ASIC": {
+    "last_updated": "2026-03-31T13:58:05.709338",
+    "in_earnings_season": false
+  },
+  "GPAT": {
+    "last_updated": "2026-03-31T14:18:17.820577",
+    "in_earnings_season": false
+  },
+  "MPTI": {
+    "last_updated": "2026-03-31T14:30:20.919582",
+    "in_earnings_season": false
+  },
+  "TBN": {
+    "last_updated": "2026-03-31T14:48:05.014453",
+    "in_earnings_season": false
   }
 }
