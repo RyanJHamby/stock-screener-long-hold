@@ -2496,7 +2496,7 @@
     "in_earnings_season": false
   },
   "FG": {
-    "last_updated": "2025-12-04T13:49:42.833918",
+    "last_updated": "2026-04-01T14:17:30.037340",
     "in_earnings_season": false
   },
   "FHB": {
@@ -2672,7 +2672,7 @@
     "in_earnings_season": false
   },
   "FWONA": {
-    "last_updated": "2025-12-04T13:50:59.103518",
+    "last_updated": "2026-04-01T14:19:16.840275",
     "in_earnings_season": false
   },
   "FWONK": {
@@ -7328,7 +7328,7 @@
     "in_earnings_season": true
   },
   "BMI": {
-    "last_updated": "2025-12-12T13:06:56.757742",
+    "last_updated": "2026-04-01T14:04:23.975474",
     "in_earnings_season": false
   },
   "BXC": {
@@ -8289,6 +8289,10 @@
   },
   "TBN": {
     "last_updated": "2026-03-31T14:48:05.014453",
+    "in_earnings_season": false
+  },
+  "ROP": {
+    "last_updated": "2026-04-01T14:44:40.136667",
     "in_earnings_season": false
   }
 }
