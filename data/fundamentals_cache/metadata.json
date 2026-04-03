@@ -5648,7 +5648,7 @@
     "in_earnings_season": true
   },
   "SENEA": {
-    "last_updated": "2025-12-04T14:11:04.561594",
+    "last_updated": "2026-04-03T14:12:11.605056",
     "in_earnings_season": false
   },
   "SEPN": {
@@ -8293,6 +8293,14 @@
   },
   "ROP": {
     "last_updated": "2026-04-01T14:44:40.136667",
+    "in_earnings_season": false
+  },
+  "ESEA": {
+    "last_updated": "2026-04-03T13:41:45.461923",
+    "in_earnings_season": false
+  },
+  "LSAK": {
+    "last_updated": "2026-04-03T13:56:02.503437",
     "in_earnings_season": false
   }
 }
