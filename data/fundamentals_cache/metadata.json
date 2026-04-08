@@ -7136,7 +7136,7 @@
     "in_earnings_season": false
   },
   "RBRK": {
-    "last_updated": "2025-12-09T14:08:49.817261",
+    "last_updated": "2026-04-08T14:40:23.873041",
     "in_earnings_season": false
   },
   "SAIC": {
@@ -8305,6 +8305,10 @@
   },
   "SLDE": {
     "last_updated": "2026-04-06T14:30:32.925696",
+    "in_earnings_season": false
+  },
+  "VOYG": {
+    "last_updated": "2026-04-08T14:53:13.701021",
     "in_earnings_season": false
   }
 }
