@@ -1948,7 +1948,7 @@
     "in_earnings_season": false
   },
   "DIS": {
-    "last_updated": "2025-12-04T13:46:11.553951",
+    "last_updated": "2026-04-14T14:20:43.947467",
     "in_earnings_season": false
   },
   "DJCO": {
@@ -4776,7 +4776,7 @@
     "in_earnings_season": false
   },
   "ORCL": {
-    "last_updated": "2025-12-04T14:05:06.761048",
+    "last_updated": "2026-04-14T14:46:09.866189",
     "in_earnings_season": false
   },
   "ORIC": {
@@ -7272,7 +7272,7 @@
     "in_earnings_season": true
   },
   "SAFT": {
-    "last_updated": "2025-12-11T02:44:05.496292",
+    "last_updated": "2026-04-14T14:53:13.931269",
     "in_earnings_season": false
   },
   "SARO": {
@@ -8329,6 +8329,22 @@
   },
   "JCAP": {
     "last_updated": "2026-04-13T14:31:56.725653",
+    "in_earnings_season": false
+  },
+  "CAI": {
+    "last_updated": "2026-04-14T14:14:05.532742",
+    "in_earnings_season": false
+  },
+  "CHYM": {
+    "last_updated": "2026-04-14T14:16:04.506495",
+    "in_earnings_season": false
+  },
+  "OTF": {
+    "last_updated": "2026-04-14T14:46:27.633821",
+    "in_earnings_season": false
+  },
+  "VRTS": {
+    "last_updated": "2026-04-14T15:03:57.016885",
     "in_earnings_season": false
   }
 }
