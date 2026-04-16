@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "PRK",
-    "fetch_date": "2026-03-23T14:12:35.144476",
+    "fetch_date": "2026-04-16T14:51:32.241749",
     "quarterly_revenue": {
       "2024-09-30 00:00:00": NaN,
       "2024-12-31 00:00:00": 134509000.0,
@@ -24,5 +24,5 @@
     "eps_yoy_change": 10.970464135021087,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-03-23T14:12:35.145208"
+  "fetched_at": "2026-04-16T14:51:32.242499"
 }
