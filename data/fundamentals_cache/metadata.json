@@ -224,7 +224,7 @@
     "in_earnings_season": true
   },
   "AGO": {
-    "last_updated": "2026-02-13T13:21:25.483258",
+    "last_updated": "2026-04-20T14:05:38.762981",
     "in_earnings_season": true
   },
   "AGX": {
@@ -376,7 +376,7 @@
     "in_earnings_season": false
   },
   "AMP": {
-    "last_updated": "2026-02-13T13:22:50.732844",
+    "last_updated": "2026-04-20T14:07:03.031241",
     "in_earnings_season": true
   },
   "AMPH": {
@@ -972,7 +972,7 @@
     "in_earnings_season": false
   },
   "BLD": {
-    "last_updated": "2026-02-13T13:27:50.536850",
+    "last_updated": "2026-04-20T14:12:02.934348",
     "in_earnings_season": true
   },
   "BLFS": {
@@ -2580,7 +2580,7 @@
     "in_earnings_season": true
   },
   "FNF": {
-    "last_updated": "2026-02-13T13:42:00.940236",
+    "last_updated": "2026-04-20T14:26:10.098085",
     "in_earnings_season": true
   },
   "FNV": {
@@ -3988,7 +3988,7 @@
     "in_earnings_season": false
   },
   "MAA": {
-    "last_updated": "2026-02-11T14:15:24.057586",
+    "last_updated": "2026-04-20T14:38:35.536551",
     "in_earnings_season": true
   },
   "MAC": {
@@ -4404,7 +4404,7 @@
     "in_earnings_season": true
   },
   "NBIX": {
-    "last_updated": "2026-02-13T13:58:08.124393",
+    "last_updated": "2026-04-20T14:42:20.068202",
     "in_earnings_season": true
   },
   "NBTB": {
@@ -7368,7 +7368,7 @@
     "in_earnings_season": true
   },
   "ETD": {
-    "last_updated": "2026-02-05T13:41:20.687304",
+    "last_updated": "2026-04-20T14:23:56.980329",
     "in_earnings_season": true
   },
   "EVTC": {
@@ -7968,7 +7968,7 @@
     "in_earnings_season": false
   },
   "AMT": {
-    "last_updated": "2026-02-11T13:44:03.782159",
+    "last_updated": "2026-04-20T14:07:15.910858",
     "in_earnings_season": true
   },
   "CCI": {
@@ -8320,16 +8320,16 @@
     "in_earnings_season": true
   },
   "MRLN": {
-    "last_updated": "2026-04-10T14:18:16.253372",
-    "in_earnings_season": false
+    "last_updated": "2026-04-20T14:41:05.982267",
+    "in_earnings_season": true
   },
   "RAL": {
     "last_updated": "2026-04-17T14:35:50.709196",
     "in_earnings_season": true
   },
   "JCAP": {
-    "last_updated": "2026-04-13T14:31:56.725653",
-    "in_earnings_season": false
+    "last_updated": "2026-04-20T14:34:24.999489",
+    "in_earnings_season": true
   },
   "CAI": {
     "last_updated": "2026-04-14T14:14:05.532742",
@@ -8365,6 +8365,10 @@
   },
   "RPC": {
     "last_updated": "2026-04-17T14:37:42.681351",
+    "in_earnings_season": true
+  },
+  "FVCB": {
+    "last_updated": "2026-04-20T14:27:05.902451",
     "in_earnings_season": true
   }
 }
