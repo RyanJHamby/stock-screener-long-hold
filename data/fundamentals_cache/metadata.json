@@ -1948,8 +1948,8 @@
     "in_earnings_season": false
   },
   "DIS": {
-    "last_updated": "2026-04-14T14:20:43.947467",
-    "in_earnings_season": false
+    "last_updated": "2026-04-22T14:19:14.799239",
+    "in_earnings_season": true
   },
   "DJCO": {
     "last_updated": "2026-03-11T13:36:54.724565",
@@ -3476,7 +3476,7 @@
     "in_earnings_season": false
   },
   "ISRG": {
-    "last_updated": "2026-02-13T13:49:46.968015",
+    "last_updated": "2026-04-22T14:32:25.841624",
     "in_earnings_season": true
   },
   "ITT": {
@@ -4160,7 +4160,7 @@
     "in_earnings_season": false
   },
   "MHO": {
-    "last_updated": "2026-02-13T13:55:57.129338",
+    "last_updated": "2026-04-22T14:38:36.827304",
     "in_earnings_season": true
   },
   "MIND": {
@@ -4776,8 +4776,8 @@
     "in_earnings_season": false
   },
   "ORCL": {
-    "last_updated": "2026-04-14T14:46:09.866189",
-    "in_earnings_season": false
+    "last_updated": "2026-04-22T14:44:41.093879",
+    "in_earnings_season": true
   },
   "ORIC": {
     "last_updated": "2025-12-04T14:05:09.587040",
@@ -8076,7 +8076,7 @@
     "in_earnings_season": true
   },
   "MGEE": {
-    "last_updated": "2026-02-09T14:15:57.440678",
+    "last_updated": "2026-04-22T14:38:23.952033",
     "in_earnings_season": true
   },
   "POST": {
@@ -8332,20 +8332,20 @@
     "in_earnings_season": true
   },
   "CAI": {
-    "last_updated": "2026-04-14T14:14:05.532742",
-    "in_earnings_season": false
+    "last_updated": "2026-04-22T14:12:36.496061",
+    "in_earnings_season": true
   },
   "CHYM": {
-    "last_updated": "2026-04-14T14:16:04.506495",
-    "in_earnings_season": false
+    "last_updated": "2026-04-22T14:14:35.533092",
+    "in_earnings_season": true
   },
   "OTF": {
     "last_updated": "2026-04-14T14:46:27.633821",
     "in_earnings_season": false
   },
   "VRTS": {
-    "last_updated": "2026-04-14T15:03:57.016885",
-    "in_earnings_season": false
+    "last_updated": "2026-04-22T15:02:24.959994",
+    "in_earnings_season": true
   },
   "TYL": {
     "last_updated": "2026-04-16T15:03:44.565510",
@@ -8373,6 +8373,10 @@
   },
   "SMBC": {
     "last_updated": "2026-04-21T14:54:08.949125",
+    "in_earnings_season": true
+  },
+  "P": {
+    "last_updated": "2026-04-22T14:45:17.910816",
     "in_earnings_season": true
   }
 }
