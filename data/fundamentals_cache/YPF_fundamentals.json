@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "YPF",
-    "fetch_date": "2026-04-16T15:08:53.105174",
+    "fetch_date": "2026-04-24T15:00:39.351635",
     "quarterly_revenue": {
       "2024-12-31 00:00:00": 4757000000.0,
       "2025-03-31 00:00:00": 4600000000.0,
@@ -35,5 +35,5 @@
     "inventory_to_sales_ratio": 0.318,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-16T15:08:53.106718"
+  "fetched_at": "2026-04-24T15:00:39.353129"
 }

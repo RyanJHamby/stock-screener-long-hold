@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "SSD",
-    "fetch_date": "2026-04-16T14:59:24.528154",
+    "fetch_date": "2026-04-24T14:51:10.161419",
     "quarterly_revenue": {
       "2024-09-30 00:00:00": NaN,
       "2024-12-31 00:00:00": 517429000.0,
@@ -37,5 +37,5 @@
     "inventory_to_sales_ratio": 1.102,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-16T14:59:24.529708"
+  "fetched_at": "2026-04-24T14:51:10.162882"
 }

@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "BKE",
-    "fetch_date": "2026-04-16T14:14:05.502149",
+    "fetch_date": "2026-04-24T14:05:54.613790",
     "quarterly_revenue": {
       "2024-07-31 00:00:00": NaN,
       "2024-10-31 00:00:00": NaN,
@@ -38,5 +38,5 @@
     "inventory_to_sales_ratio": 0.35,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-16T14:14:05.503652"
+  "fetched_at": "2026-04-24T14:05:54.615282"
 }

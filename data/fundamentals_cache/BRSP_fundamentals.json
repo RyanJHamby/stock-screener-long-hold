@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "BRSP",
-    "fetch_date": "2026-04-16T14:15:19.676427",
+    "fetch_date": "2026-04-24T14:07:08.591816",
     "quarterly_revenue": {
       "2024-09-30 00:00:00": NaN,
       "2024-12-31 00:00:00": 80414000.0,
@@ -27,5 +27,5 @@
     "operating_margin": 4.6,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-16T14:15:19.678273"
+  "fetched_at": "2026-04-24T14:07:08.592961"
 }

@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "ECO",
-    "fetch_date": "2026-04-16T14:24:26.978519",
+    "fetch_date": "2026-04-24T14:16:14.118995",
     "quarterly_revenue": {
       "2024-12-31 00:00:00": 85189520.0,
       "2025-03-31 00:00:00": 80147652.0,
@@ -35,5 +35,5 @@
     "inventory_to_sales_ratio": 0.136,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-16T14:24:26.980079"
+  "fetched_at": "2026-04-24T14:16:14.120478"
 }

@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "FIBK",
-    "fetch_date": "2026-04-16T14:27:42.057587",
+    "fetch_date": "2026-04-24T14:19:30.274968",
     "quarterly_revenue": {
       "2024-09-30 00:00:00": NaN,
       "2024-12-31 00:00:00": 261300000.0,
@@ -24,5 +24,5 @@
     "eps_yoy_change": 111.76470588235294,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-16T14:27:42.058304"
+  "fetched_at": "2026-04-24T14:19:30.275590"
 }

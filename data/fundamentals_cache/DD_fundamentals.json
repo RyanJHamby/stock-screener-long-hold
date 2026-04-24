@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "DD",
-    "fetch_date": "2026-04-16T14:22:22.080424",
+    "fetch_date": "2026-04-24T14:14:10.001795",
     "quarterly_revenue": {
       "2024-09-30 00:00:00": NaN,
       "2024-12-31 00:00:00": 3092000000.0,
@@ -37,5 +37,5 @@
     "inventory_to_sales_ratio": -0.626,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-16T14:22:22.082033"
+  "fetched_at": "2026-04-24T14:14:10.003258"
 }

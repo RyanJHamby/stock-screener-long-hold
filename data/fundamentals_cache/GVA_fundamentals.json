@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "GVA",
-    "fetch_date": "2026-04-16T14:31:52.353038",
+    "fetch_date": "2026-04-24T14:23:41.318620",
     "quarterly_revenue": {
       "2024-09-30 00:00:00": NaN,
       "2024-12-31 00:00:00": 977303000.0,
@@ -37,5 +37,5 @@
     "inventory_to_sales_ratio": 0.123,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-16T14:31:52.354607"
+  "fetched_at": "2026-04-24T14:23:41.320911"
 }

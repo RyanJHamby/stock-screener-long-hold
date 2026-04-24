@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "HUBB",
-    "fetch_date": "2026-04-16T14:33:51.450116",
+    "fetch_date": "2026-04-24T14:25:39.316282",
     "quarterly_revenue": {
       "2024-12-31 00:00:00": 1334300000.0,
       "2025-03-31 00:00:00": 1365200000.0,
@@ -35,5 +35,5 @@
     "inventory_to_sales_ratio": 0.726,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-16T14:33:51.451668"
+  "fetched_at": "2026-04-24T14:25:39.318997"
 }

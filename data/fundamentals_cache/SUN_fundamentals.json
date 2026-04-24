@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "SUN",
-    "fetch_date": "2026-04-16T15:00:09.590264",
+    "fetch_date": "2026-04-24T14:51:55.199762",
     "quarterly_revenue": {
       "2024-09-30 00:00:00": NaN,
       "2024-12-31 00:00:00": 5269000000.0,
@@ -37,5 +37,5 @@
     "inventory_to_sales_ratio": 0.277,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-16T15:00:09.591807"
+  "fetched_at": "2026-04-24T14:51:55.201217"
 }

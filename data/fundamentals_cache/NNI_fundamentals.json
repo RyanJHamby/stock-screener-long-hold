@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "NNI",
-    "fetch_date": "2026-04-16T14:45:36.079340",
+    "fetch_date": "2026-04-24T14:37:26.472054",
     "quarterly_revenue": {
       "2024-09-30 00:00:00": NaN,
       "2024-12-31 00:00:00": 293017000.0,
@@ -24,5 +24,5 @@
     "eps_yoy_change": -7.514450867052017,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-16T14:45:36.080063"
+  "fetched_at": "2026-04-24T14:37:26.472677"
 }

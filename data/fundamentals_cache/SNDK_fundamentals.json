@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "SNDK",
-    "fetch_date": "2026-04-16T14:58:21.399589",
+    "fetch_date": "2026-04-24T14:50:09.841610",
     "quarterly_revenue": {
       "2024-12-31 00:00:00": 1876000000.0,
       "2025-03-31 00:00:00": 1695000000.0,
@@ -34,5 +34,5 @@
     "inventory_to_sales_ratio": 0.651,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-16T14:58:21.401127"
+  "fetched_at": "2026-04-24T14:50:09.843088"
 }

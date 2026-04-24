@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "MFA",
-    "fetch_date": "2026-04-16T14:42:01.859329",
+    "fetch_date": "2026-04-24T14:33:51.669919",
     "quarterly_revenue": {
       "2024-09-30 00:00:00": NaN,
       "2024-12-31 00:00:00": 32652000.0,
@@ -24,5 +24,5 @@
     "eps_yoy_change": 2200.0,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-16T14:42:01.860066"
+  "fetched_at": "2026-04-24T14:33:51.670576"
 }

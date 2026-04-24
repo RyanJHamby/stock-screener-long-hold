@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "SBAC",
-    "fetch_date": "2026-04-16T14:55:46.308456",
+    "fetch_date": "2026-04-24T14:47:35.331868",
     "quarterly_revenue": {
       "2024-12-31 00:00:00": 693700000.0,
       "2025-03-31 00:00:00": 664248000.0,
@@ -25,5 +25,5 @@
     "operating_margin": 54.12,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-16T14:55:46.309737"
+  "fetched_at": "2026-04-24T14:47:35.333024"
 }

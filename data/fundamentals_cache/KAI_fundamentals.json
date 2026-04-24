@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "KAI",
-    "fetch_date": "2026-04-16T14:37:03.338447",
+    "fetch_date": "2026-04-24T14:28:51.365680",
     "quarterly_revenue": {
       "2024-09-30 00:00:00": NaN,
       "2024-12-31 00:00:00": 258030000.0,
@@ -36,5 +36,5 @@
     "inventory_to_sales_ratio": 0.723,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-16T14:37:03.340006"
+  "fetched_at": "2026-04-24T14:28:51.367244"
 }

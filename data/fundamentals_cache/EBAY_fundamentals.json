@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "EBAY",
-    "fetch_date": "2026-04-16T14:24:18.238219",
+    "fetch_date": "2026-04-24T14:16:04.853185",
     "quarterly_revenue": {
       "2024-12-31 00:00:00": 2579000000.0,
       "2025-03-31 00:00:00": 2585000000.0,
@@ -25,5 +25,5 @@
     "operating_margin": 20.27,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-16T14:24:18.239392"
+  "fetched_at": "2026-04-24T14:16:04.854343"
 }
