@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "HQY",
-    "fetch_date": "2026-04-16T14:33:26.271567",
+    "fetch_date": "2026-04-27T14:47:06.977853",
     "quarterly_revenue": {
       "2024-10-31 00:00:00": NaN,
       "2025-01-31 00:00:00": 311817000.0,
@@ -27,5 +27,5 @@
     "operating_margin": 21.64,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-16T14:33:26.272744"
+  "fetched_at": "2026-04-27T14:47:06.979219"
 }
