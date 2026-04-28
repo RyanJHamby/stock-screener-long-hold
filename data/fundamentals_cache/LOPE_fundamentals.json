@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "LOPE",
-    "fetch_date": "2026-04-16T14:40:03.639850",
+    "fetch_date": "2026-04-28T15:08:11.363863",
     "quarterly_revenue": {
       "2024-09-30 00:00:00": NaN,
       "2024-12-31 00:00:00": 292573000.0,
@@ -27,5 +27,5 @@
     "operating_margin": 35.08,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-16T14:40:03.641058"
+  "fetched_at": "2026-04-28T15:08:11.365043"
 }
