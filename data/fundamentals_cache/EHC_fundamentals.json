@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "EHC",
-    "fetch_date": "2026-04-16T14:24:52.030284",
+    "fetch_date": "2026-05-01T14:04:36.240355",
     "quarterly_revenue": {
       "2024-09-30 00:00:00": NaN,
       "2024-12-31 00:00:00": 1405000000.0,
@@ -27,5 +27,5 @@
     "operating_margin": 18.35,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-16T14:24:52.031514"
+  "fetched_at": "2026-05-01T14:04:36.241865"
 }
