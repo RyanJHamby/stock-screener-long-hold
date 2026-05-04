@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "CCJ",
-    "fetch_date": "2026-04-24T14:08:58.865538",
+    "fetch_date": "2026-05-04T14:33:24.244696",
     "quarterly_revenue": {
       "2024-09-30 00:00:00": NaN,
       "2024-12-31 00:00:00": 1183173000.0,
@@ -37,5 +37,5 @@
     "inventory_to_sales_ratio": 0.844,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-24T14:08:58.867009"
+  "fetched_at": "2026-05-04T14:33:24.246396"
 }

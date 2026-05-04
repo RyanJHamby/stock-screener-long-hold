@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "PCG",
-    "fetch_date": "2026-04-24T14:41:22.881325",
+    "fetch_date": "2026-05-04T15:05:42.489945",
     "quarterly_revenue": {
       "2024-09-30 00:00:00": NaN,
       "2024-12-31 00:00:00": NaN,
@@ -40,5 +40,5 @@
     "inventory_to_sales_ratio": 0.121,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-24T14:41:22.882817"
+  "fetched_at": "2026-05-04T15:05:42.491703"
 }

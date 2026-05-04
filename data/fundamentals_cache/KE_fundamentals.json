@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "KE",
-    "fetch_date": "2026-04-24T14:29:01.332554",
+    "fetch_date": "2026-05-04T14:53:25.070294",
     "quarterly_revenue": {
       "2024-09-30 00:00:00": NaN,
       "2024-12-31 00:00:00": 357392000.0,
@@ -37,5 +37,5 @@
     "inventory_to_sales_ratio": 0.825,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-24T14:29:01.334054"
+  "fetched_at": "2026-05-04T14:53:25.071947"
 }

@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "GNL",
-    "fetch_date": "2026-04-24T14:22:36.108366",
+    "fetch_date": "2026-05-04T14:46:59.934197",
     "quarterly_revenue": {
       "2024-12-31 00:00:00": 199115000.0,
       "2025-03-31 00:00:00": 132415000.0,
@@ -25,5 +25,5 @@
     "operating_margin": 37.23,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-24T14:22:36.109510"
+  "fetched_at": "2026-05-04T14:46:59.935580"
 }

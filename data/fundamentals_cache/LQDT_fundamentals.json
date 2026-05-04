@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "LQDT",
-    "fetch_date": "2026-04-24T14:32:04.514393",
+    "fetch_date": "2026-05-04T14:56:27.253064",
     "quarterly_revenue": {
       "2024-12-31 00:00:00": 122331000.0,
       "2025-03-31 00:00:00": 116375000.0,
@@ -35,5 +35,5 @@
     "inventory_to_sales_ratio": 0.119,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-24T14:32:04.516543"
+  "fetched_at": "2026-05-04T14:56:27.254713"
 }

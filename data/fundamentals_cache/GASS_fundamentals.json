@@ -1,17 +1,17 @@
 {
   "data": {
     "ticker": "GASS",
-    "fetch_date": "2026-04-27T14:43:15.188636",
+    "fetch_date": "2026-05-04T14:45:48.919749",
     "quarterly_revenue": {
-      "2024-09-30 00:00:00": 40445006.0,
+      "2024-09-30 00:00:00": NaN,
       "2024-12-31 00:00:00": 43467117.0,
       "2025-03-31 00:00:00": 42025987.0,
       "2025-06-30 00:00:00": 47234265.0,
       "2025-09-30 00:00:00": 44529746.0,
-      "2025-12-31 00:00:00": NaN
+      "2025-12-31 00:00:00": 39371480.0
     },
-    "revenue_qoq_change": null,
-    "revenue_yoy_change": null,
+    "revenue_qoq_change": -11.583865760204425,
+    "revenue_yoy_change": -9.422380140831518,
     "quarterly_eps": {
       "2024-09-30 00:00:00": NaN,
       "2024-12-31 00:00:00": 0.38,
@@ -22,19 +22,20 @@
     },
     "eps_qoq_change": -5.555555555555546,
     "eps_yoy_change": -10.52631578947368,
-    "gross_margin": NaN,
-    "margin_change": NaN,
-    "operating_margin": NaN,
+    "gross_margin": 34.38,
+    "margin_change": 0.62,
+    "operating_margin": 25.82,
     "quarterly_inventory": {
-      "2024-09-30 00:00:00": 1821780.0,
+      "2024-09-30 00:00:00": NaN,
       "2024-12-31 00:00:00": 3891147.0,
       "2025-03-31 00:00:00": 3198028.0,
       "2025-06-30 00:00:00": 3427988.0,
-      "2025-09-30 00:00:00": 3315337.0
+      "2025-09-30 00:00:00": 3315337.0,
+      "2025-12-31 00:00:00": 1899887.0
     },
-    "inventory_qoq_change": -3.29,
-    "inventory_to_sales_ratio": NaN,
+    "inventory_qoq_change": -42.69,
+    "inventory_to_sales_ratio": 0.048,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-27T14:43:15.190408"
+  "fetched_at": "2026-05-04T14:45:48.921440"
 }

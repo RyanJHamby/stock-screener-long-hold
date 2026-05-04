@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "GE",
-    "fetch_date": "2026-04-24T14:21:43.366124",
+    "fetch_date": "2026-05-04T14:46:07.018009",
     "quarterly_revenue": {
       "2024-09-30 00:00:00": NaN,
       "2024-12-31 00:00:00": NaN,
@@ -24,8 +24,8 @@
     },
     "eps_qoq_change": -24.58333333333333,
     "eps_yoy_change": -1.0928961748633887,
-    "gross_margin": 36.07,
-    "margin_change": 1.83,
+    "gross_margin": 31.04,
+    "margin_change": 1.12,
     "operating_margin": 18.74,
     "quarterly_inventory": {
       "2024-09-30 00:00:00": NaN,
@@ -40,5 +40,5 @@
     "inventory_to_sales_ratio": 0.998,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-24T14:21:43.368398"
+  "fetched_at": "2026-05-04T14:46:07.019651"
 }

@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "DCO",
-    "fetch_date": "2026-04-24T14:14:06.868618",
+    "fetch_date": "2026-05-04T14:38:32.464756",
     "quarterly_revenue": {
       "2024-12-31 00:00:00": 197292000.0,
       "2025-03-31 00:00:00": 194114000.0,
@@ -35,5 +35,5 @@
     "inventory_to_sales_ratio": 0.847,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-24T14:14:06.870087"
+  "fetched_at": "2026-05-04T14:38:32.466369"
 }

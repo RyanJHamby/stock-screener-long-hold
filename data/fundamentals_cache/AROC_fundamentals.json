@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "AROC",
-    "fetch_date": "2026-04-24T14:02:34.531124",
+    "fetch_date": "2026-05-04T14:26:58.145736",
     "quarterly_revenue": {
       "2024-09-30 00:00:00": NaN,
       "2024-12-31 00:00:00": 326416000.0,
@@ -27,5 +27,5 @@
     "operating_margin": 43.23,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-24T14:02:34.532286"
+  "fetched_at": "2026-05-04T14:26:58.147017"
 }

@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "ACEL",
-    "fetch_date": "2026-04-24T13:58:26.379041",
+    "fetch_date": "2026-05-04T14:22:50.946550",
     "quarterly_revenue": {
       "2024-09-30 00:00:00": NaN,
       "2024-12-31 00:00:00": 317515000.0,
@@ -37,5 +37,5 @@
     "inventory_to_sales_ratio": 0.024,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-24T13:58:26.380546"
+  "fetched_at": "2026-05-04T14:22:50.948303"
 }

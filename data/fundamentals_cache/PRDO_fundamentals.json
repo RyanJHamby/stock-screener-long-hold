@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "PRDO",
-    "fetch_date": "2026-04-24T14:43:16.978751",
+    "fetch_date": "2026-05-04T15:07:36.637711",
     "quarterly_revenue": {
       "2024-09-30 00:00:00": NaN,
       "2024-12-31 00:00:00": 176431000.0,
@@ -37,5 +37,5 @@
     "inventory_to_sales_ratio": 0.019,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-24T14:43:16.980213"
+  "fetched_at": "2026-05-04T15:07:36.639359"
 }

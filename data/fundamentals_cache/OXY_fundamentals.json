@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "OXY",
-    "fetch_date": "2026-04-24T14:40:47.885005",
+    "fetch_date": "2026-05-04T15:05:07.511240",
     "quarterly_revenue": {
       "2024-09-30 00:00:00": NaN,
       "2024-12-31 00:00:00": 6760000000.0,
@@ -37,5 +37,5 @@
     "inventory_to_sales_ratio": 1.041,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-24T14:40:47.886689"
+  "fetched_at": "2026-05-04T15:05:07.513292"
 }

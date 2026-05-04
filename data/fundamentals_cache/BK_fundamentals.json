@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "BK",
-    "fetch_date": "2026-04-24T14:05:52.713285",
+    "fetch_date": "2026-05-04T14:30:18.241234",
     "quarterly_revenue": {
       "2024-09-30 00:00:00": NaN,
       "2024-12-31 00:00:00": 4760000000.0,
@@ -26,5 +26,5 @@
     "eps_yoy_change": 41.77215189873419,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-24T14:05:52.714054"
+  "fetched_at": "2026-05-04T14:30:18.241910"
 }

@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "CPK",
-    "fetch_date": "2026-04-24T14:11:57.859897",
+    "fetch_date": "2026-05-04T14:36:23.472595",
     "quarterly_revenue": {
       "2024-09-30 00:00:00": NaN,
       "2024-12-31 00:00:00": 215046000.0,
@@ -37,5 +37,5 @@
     "inventory_to_sales_ratio": 0.103,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-24T14:11:57.862426"
+  "fetched_at": "2026-05-04T14:36:23.474308"
 }

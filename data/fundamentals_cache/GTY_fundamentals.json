@@ -1,21 +1,19 @@
 {
   "data": {
     "ticker": "GTY",
-    "fetch_date": "2026-04-24T14:23:38.239131",
+    "fetch_date": "2026-05-04T14:48:02.211541",
     "quarterly_revenue": {
       "2024-09-30 00:00:00": NaN,
-      "2024-12-31 00:00:00": 53016000.0,
       "2025-03-31 00:00:00": 52330000.0,
       "2025-06-30 00:00:00": 53257000.0,
       "2025-09-30 00:00:00": 55591000.0,
       "2025-12-31 00:00:00": 60549000.0,
-      "2026-03-31 00:00:00": NaN
+      "2026-03-31 00:00:00": 57844000.0
     },
-    "revenue_qoq_change": null,
-    "revenue_yoy_change": null,
+    "revenue_qoq_change": -4.467456109927497,
+    "revenue_yoy_change": 10.53697687750812,
     "quarterly_eps": {
       "2024-09-30 00:00:00": NaN,
-      "2024-12-31 00:00:00": NaN,
       "2025-03-31 00:00:00": 0.25,
       "2025-06-30 00:00:00": 0.24,
       "2025-09-30 00:00:00": 0.4,
@@ -24,10 +22,10 @@
     },
     "eps_qoq_change": -4.444444444444448,
     "eps_yoy_change": 72.0,
-    "gross_margin": NaN,
-    "margin_change": NaN,
-    "operating_margin": NaN,
+    "gross_margin": 96.52,
+    "margin_change": -0.32,
+    "operating_margin": 65.78,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-24T14:23:38.240275"
+  "fetched_at": "2026-05-04T14:48:02.212809"
 }

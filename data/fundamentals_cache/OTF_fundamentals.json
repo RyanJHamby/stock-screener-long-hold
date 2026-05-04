@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "OTF",
-    "fetch_date": "2026-04-14T14:46:27.631722",
+    "fetch_date": "2026-05-04T15:04:52.346453",
     "quarterly_revenue": {
       "2024-09-30 00:00:00": 127696000.0,
       "2024-12-31 00:00:00": 110100000.0,
@@ -22,5 +22,5 @@
     "eps_yoy_change": null,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-14T14:46:27.632354"
+  "fetched_at": "2026-05-04T15:04:52.347101"
 }
