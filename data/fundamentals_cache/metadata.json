@@ -2804,7 +2804,7 @@
     "in_earnings_season": true
   },
   "GIG": {
-    "last_updated": "2026-04-16T14:30:22.297819",
+    "last_updated": "2026-05-05T14:39:49.640869",
     "in_earnings_season": true
   },
   "GIII": {
@@ -3072,7 +3072,7 @@
     "in_earnings_season": false
   },
   "HLI": {
-    "last_updated": "2026-04-24T14:24:43.334685",
+    "last_updated": "2026-05-05T14:42:21.714359",
     "in_earnings_season": true
   },
   "HLIO": {
@@ -3940,7 +3940,7 @@
     "in_earnings_season": true
   },
   "LTH": {
-    "last_updated": "2026-04-24T14:32:15.501486",
+    "last_updated": "2026-05-05T14:49:52.791711",
     "in_earnings_season": true
   },
   "LTRX": {
@@ -4328,7 +4328,7 @@
     "in_earnings_season": false
   },
   "MTD": {
-    "last_updated": "2026-04-16T14:43:44.942619",
+    "last_updated": "2026-05-05T14:53:08.758688",
     "in_earnings_season": true
   },
   "MTG": {
@@ -5520,7 +5520,7 @@
     "in_earnings_season": true
   },
   "RVTY": {
-    "last_updated": "2026-04-17T14:38:05.207064",
+    "last_updated": "2026-05-05T15:04:33.155979",
     "in_earnings_season": true
   },
   "RY": {
@@ -6424,7 +6424,7 @@
     "in_earnings_season": false
   },
   "TWFG": {
-    "last_updated": "2026-04-24T14:55:14.177759",
+    "last_updated": "2026-05-05T15:12:46.871878",
     "in_earnings_season": true
   },
   "TWI": {
@@ -6728,7 +6728,7 @@
     "in_earnings_season": true
   },
   "VST": {
-    "last_updated": "2026-04-24T14:58:06.250967",
+    "last_updated": "2026-05-05T15:15:38.960089",
     "in_earnings_season": true
   },
   "VSTM": {
@@ -6776,7 +6776,7 @@
     "in_earnings_season": false
   },
   "WAT": {
-    "last_updated": "2026-04-24T14:58:34.220378",
+    "last_updated": "2026-05-05T15:16:06.950098",
     "in_earnings_season": true
   },
   "WBD": {
@@ -7932,7 +7932,7 @@
     "in_earnings_season": false
   },
   "STRF": {
-    "last_updated": "2026-04-24T14:51:40.002586",
+    "last_updated": "2026-05-05T15:09:13.873063",
     "in_earnings_season": true
   },
   "WAY": {
@@ -8048,7 +8048,7 @@
     "in_earnings_season": true
   },
   "TXO": {
-    "last_updated": "2026-04-27T15:17:13.610152",
+    "last_updated": "2026-05-05T15:12:56.871408",
     "in_earnings_season": true
   },
   "PLPC": {
@@ -8385,6 +8385,14 @@
   },
   "IRMD": {
     "last_updated": "2026-05-01T14:15:46.047248",
+    "in_earnings_season": true
+  },
+  "DYNC": {
+    "last_updated": "2026-05-05T14:33:41.488588",
+    "in_earnings_season": true
+  },
+  "JBSS": {
+    "last_updated": "2026-05-05T14:46:03.780263",
     "in_earnings_season": true
   }
 }
