@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "TMHC",
-    "fetch_date": "2026-04-28T15:30:03.797358",
+    "fetch_date": "2026-05-06T15:29:48.396125",
     "quarterly_revenue": {
       "2024-09-30 00:00:00": NaN,
       "2024-12-31 00:00:00": NaN,
@@ -40,5 +40,5 @@
     "inventory_to_sales_ratio": 4.498,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-28T15:30:03.798887"
+  "fetched_at": "2026-05-06T15:29:48.397597"
 }

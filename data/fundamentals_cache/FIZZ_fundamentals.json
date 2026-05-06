@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "FIZZ",
-    "fetch_date": "2026-04-28T14:56:05.091089",
+    "fetch_date": "2026-05-06T14:55:54.103748",
     "quarterly_revenue": {
       "2024-10-31 00:00:00": NaN,
       "2025-01-31 00:00:00": 267050000.0,
@@ -26,7 +26,6 @@
     "margin_change": -0.22,
     "operating_margin": 19.33,
     "quarterly_inventory": {
-      "2024-07-31 00:00:00": NaN,
       "2024-10-31 00:00:00": NaN,
       "2025-01-31 00:00:00": 85032000.0,
       "2025-04-30 00:00:00": 85109000.0,
@@ -38,5 +37,5 @@
     "inventory_to_sales_ratio": 0.363,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-28T14:56:05.092611"
+  "fetched_at": "2026-05-06T14:55:54.105185"
 }
