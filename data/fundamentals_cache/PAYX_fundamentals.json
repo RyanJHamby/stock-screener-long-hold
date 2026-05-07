@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "PAYX",
-    "fetch_date": "2026-04-29T15:06:12.840802",
+    "fetch_date": "2026-05-07T15:21:11.372699",
     "quarterly_revenue": {
       "2024-11-30 00:00:00": NaN,
       "2025-02-28 00:00:00": 1509000000.0,
@@ -27,5 +27,5 @@
     "operating_margin": 43.78,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-29T15:06:12.842141"
+  "fetched_at": "2026-05-07T15:21:11.374070"
 }

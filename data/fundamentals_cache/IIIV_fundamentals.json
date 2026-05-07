@@ -1,7 +1,7 @@
 {
   "data": {
     "ticker": "IIIV",
-    "fetch_date": "2026-04-29T14:51:40.525267",
+    "fetch_date": "2026-05-07T15:06:41.177196",
     "quarterly_revenue": {
       "2024-12-31 00:00:00": 52221000.0,
       "2025-03-31 00:00:00": 63059000.0,
@@ -35,5 +35,5 @@
     "inventory_to_sales_ratio": 0.057,
     "inventory_breakdown_available": false
   },
-  "fetched_at": "2026-04-29T14:51:40.527108"
+  "fetched_at": "2026-05-07T15:06:41.178993"
 }
